@@ -1,0 +1,37 @@
+.icon {
+  margin-right: 10px;
+}
+
+.fa {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 50%;
+}
+
+.fa:hover {
+  opacity: 0.7;
+}
+
+.fa-github {
+  background: #333;
+  color: white;
+}
+
+.fa-twitter {
+  background: #55ACEE;
+  color: white;
+} 
+
+.fa-reddit {
+  background: #FF5700;
+  color: white;
+} 
+
+.sidebar-nav-item { display: inline; }
+
+.pp {
+  border-radius: 50%;
+  display: inline;
+}

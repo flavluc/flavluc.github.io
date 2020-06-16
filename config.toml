@@ -1,15 +1,36 @@
 # The URL the site will be built for
-base_url = "https://example.com"
+base_url = "https://flavluc.github.io/"
+
+# Used in RSS by default
+title = "flávio."
+description = "I’m an undergraduate CS student at UFMG. Currently, I'm working at LAC as a research assistant, and this is my hideout, welcome >.<"
+
+# the default language, used in RSS and coming i18n
+default_language = "en"
+
+# Theme name to use
+theme = "hyde"
+
+# Whether to do syntax highlighting
+highlight_code = true
+
+# Which theme to use for the code highlighting.
+highlight_theme = "charcoal"
+
+# Whether to generate a RSS feed automatically
+generate_rss = false
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
-
-# Whether to do syntax highlighting
-# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
-highlight_code = false
 
 # Whether to build a search index to be used later on by a JavaScript library
 build_search_index = false
 
 [extra]
 # Put all your custom variables here
+
+hyde_links = [
+    {url = "https://github.com/flavluc", name = "GitHub", icon = "fa-github"},
+    {url = "https://twitter.com", name = "Twitter", icon = "fa-twitter"},
+    {url = "https://reddit.com", name = "Reddit", icon = "fa-reddit"},
+]
