@@ -75,16 +75,19 @@
     {% endblock content %}
   </div>
 
-  <div id="live2d-widget">
-    <canvas id="live2dcanvas" width="300" height="600"></canvas>
-  </div>
-
   <script src="{{config.base_url | safe }}live2d/L2Dwidget.min.js"></script>
 
   <script type="text/javascript">
+
+    const display = window.matchMedia("(max-width: 768px)").matches ?
+      // window width is at less than 768px
+      ({ width: 120, height: 250, vOffset: -60 }) :
+      // window width is greater than 768px
+      ({ width: 160, height: 310, vOffset: -50 });
+
     L2Dwidget.init({
       model: { jsonPath: "{{config.base_url | safe }}live2d/models/koharu/koharu.model.json" },
-      display: { vOffset: -70 }
+      display
     });
   </script>
 
