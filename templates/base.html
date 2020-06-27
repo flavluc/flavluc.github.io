@@ -45,8 +45,18 @@
 
       <ul class="sidebar-nav">
         {% block sidebar_nav %}
-        {% for link in config.extra.hyde_links %}
+        {% for link in config.extra.hyde_nav %}
         <li class="sidebar-nav-item">
+          <a href="{{config.base_url}}{{link.url}}">{{link.name}}</a>
+        </li>
+        {% endfor %}
+        {% endblock sidebar_nav %}
+      </ul>
+
+      <ul class="sidebar-nav">
+        {% block sidebar_social %}
+        {% for link in config.extra.hyde_social %}
+        <li class="sidebar-nav-item sidebar-social-item">
           <a class="icon fa-stack fa-lg" href="{{link.url}}">
             <i class="fa fa-circle fa-stack-2x"></i>
             <i class="fa {{link.icon}} fa-stack-1x fa-inverse"></i>

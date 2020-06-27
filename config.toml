@@ -29,7 +29,13 @@ build_search_index = false
 [extra]
 # Put all your custom variables here
 
-hyde_links = [
+hyde_nav = [
+    {url = "", name = "home"},
+    {url = "blog", name = "blog"},
+    {url = "portfolio", name = "portfolio"},
+]
+
+hyde_social = [
     {url = "https://github.com/flavluc", name = "GitHub", icon = "fa-github"},
     {url = "https://twitter.com", name = "Twitter", icon = "fa-twitter"},
     {url = "https://reddit.com", name = "Reddit", icon = "fa-reddit"},
