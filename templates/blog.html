@@ -4,7 +4,7 @@
 
 <div class="page">
   <h1 class="page-title">{{ section.title }}</h1>
-  <span class="page-description">{{ section.description }}</span>
+  <p class="lead">{{section.description}}</p>
   {{ section.content | safe }}
 
 </div>
@@ -12,11 +12,11 @@
 <div class="posts">
   {% for page in section.pages | reverse %}
   <div class="post">
-    <h1 class="post-title">
+    <h3 class="post-title">
       <a href="{{ page.permalink }}">
         {{ page.title }}
       </a>
-    </h1>
+    </h3>
     {% if page.description %}
     <span class="post-description">{{ page.description }}</span>
     {% endif %}
