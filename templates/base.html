@@ -65,6 +65,19 @@
     {% endblock content %}
   </div>
 
+  <div id="live2d-widget">
+    <canvas id="live2dcanvas" width="300" height="600"></canvas>
+  </div>
+
+  <script src="live2d/L2Dwidget.min.js"></script>
+
+  <script type="text/javascript">
+    L2Dwidget.init({
+      model: { jsonPath: 'live2d/models/koharu/koharu.model.json' },
+      display: { vOffset: -70 }
+    });
+  </script>
+
 </body>
 
 </html>

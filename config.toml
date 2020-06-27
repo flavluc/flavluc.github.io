@@ -3,7 +3,7 @@ base_url = "https://flavluc.github.io/"
 
 # Used in RSS by default
 title = "flávio."
-description = "I’m an undergraduate CS student at UFMG. Currently, I'm working at LAC as a research assistant, and this is my hideout, welcome >.<"
+description = "Hello! I’m an undergraduate CS student at UFMG. Currently, I'm working at LAC as a research assistant, and this is my hideout, welcome >.<"
 
 # the default language, used in RSS and coming i18n
 default_language = "en"
