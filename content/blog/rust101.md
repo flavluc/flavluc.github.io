@@ -7,36 +7,36 @@ date = 2020-06-27
 
 Before diving into any Rust code, we need to learn two fundamental concepts that make Rust unique:
 
- - ### Ownership:
-    - Each value in Rust has a variable that's called its owner.
-    - There can only be one owner at a time.
-    - When the owner goes out of scope, the value is dropped.
+### Ownership:
+  - Each value in Rust has a variable that's called its owner.
+  - There can only be one owner at a time.
+  - When the owner goes out of scope, the value is dropped.
 
-    ```
-    let n = String::from("hello, world");   // 'n' owns the string 'hello, world'
-    let m = n;                              // now 'm' owns the string, what about n?
-    println!("{}", m);                      // prints 'hello, world'
-    println!("{}", n);                      // **compilation error**
-    ```
+  ```
+  let n = String::from("hello, world");   // 'n' owns the string 'hello, world'
+  let m = n;                              // now 'm' owns the string, what about n?
+  println!("{}", m);                      // prints 'hello, world'
+  println!("{}", n);                      // **compilation error**
+  ```
 
- - ### Borrowing:
-    - At any given time, you can either have one mutable reference or any number of immutable references.
-    ```
-      let mut a = String::from("hello, world");
-      let b = &mut a;         // mutable reference to 'a'
-      let c = &a;             // immutable reference to 'a'
-      println!("{}", c);      // prints 'hello, world'
-      println!("{}", b);      // **compilation error**
-    ```
-    - References must always be valid (lifetimes).
-    ```
-      let b;
-      {
-          let a = String::from("hello, world");
-          b = &a;         // b is a reference to a
-      }                   // a dies here, so b is invalid
-      println!("{}", b);  // **compilation error**
-    ```
+### Borrowing:
+  - At any given time, you can either have one mutable reference or any number of immutable references.
+  ```
+    let mut a = String::from("hello, world");
+    let b = &mut a;         // mutable reference to 'a'
+    let c = &a;             // immutable reference to 'a'
+    println!("{}", c);      // prints 'hello, world'
+    println!("{}", b);      // **compilation error**
+  ```
+  - References must always be valid (lifetimes).
+  ```
+    let b;
+    {
+        let a = String::from("hello, world");
+        b = &a;         // b is a reference to a
+    }                   // a dies here, so b is invalid
+    println!("{}", b);  // **compilation error**
+  ```
 ## Hands on coding
 
 With this out of our way, we can start writing our List implementation.
@@ -56,7 +56,7 @@ pub mod list;
 
 Now we can create a `list.rs` file in the `src` folder and start to write our code.
 
-Let's first define our `Node` struct, the semantics of a struct in Rust is pretty similar to C++.
+Let's first define our `Node` struct, the semantics of a struct in Rust is pretty similar to C/C++.
 
 ```
 #[derive(Debug)]      // that's just a macro attribute that provide us default trait implementation (more on this later)
@@ -123,7 +123,7 @@ help: consider introducing a named lifetime parameter
 
 Ok now there's this new concept called `lifetime parameter`, let's see what it is.
 
-Remember in the "Borrowing" session when we said that "references must always be valid", well that's accomplished by lifetime parameters. Most of the time the Rust compiler will infer the lifetime parameters (check out the 'Lifetime Elision' session in the Rust Book), however there are some special cases when we need to explicitly tell it about them. Here's how we do it:
+Remember in the "Borrowing" session when we said that "references must always be valid", well that's accomplished by lifetime parameters. Most of the time the Rust compiler will infer the lifetime parameters (check out the 'Lifetime Elision' session in the [Rust Book](https://doc.rust-lang.org/nomicon/lifetime-elision.html)), however there are some special cases when we need to explicitly tell it about them. Here's how we do it:
 
 ```
 // implicit
@@ -135,7 +135,7 @@ fn bar<'a>(x: &'a i32) {  // 'a' is just a name for the parameter
 }
 ```
 
-In our case, it happens because, thus far, Rust has preferred to err on the side of explicitness, modulo a few areas that were deemed an ergonomic hit without some implicitness. There’s been some talk about eliding lifetimes in more places (check this out https://internals.rust-lang.org/t/lang-team-minutes-elision-2-0/5182).
+In our case, it happens because, thus far, Rust has preferred to err on the side of explicitness, modulo a few areas that were deemed an ergonomic hit without some implicitness. There’s been some talk about eliding lifetimes in more places (check [this](https://internals.rust-lang.org/t/lang-team-minutes-elision-2-0/5182) out).
 
 Then, following the compiler suggestion, let's change our code to:
 
@@ -170,9 +170,9 @@ pub enum Option<T> {
 }
 ```
 
-In Rust, enums represent one of many possible variants. Many languages support an enum syntax that works like this. Rust lets us go a bit further and add data associated with each of the variants. In our example, we have a generic enum, which means that for some time T, our enum may be a `None` variant or a `Some` variant carrying a value of type `T`.
+In Rust, enums represent one of many possible variants. Many languages support an enum syntax that works like this. Rust lets us go a bit further and add data associated with each of the variants. In our example, we have a generic enum, which means that for some type T, our enum may be a `None` variant or a `Some` variant carrying a value of type `T`.
 
-With data added to variants, this style of enum takes on many of the properties of union types in other languages. The combination of enum and union-like behavior is why this sort of type is often referred to as a “tagged union”. In type theory, it’s referred to as a sum type, and is one of many algebraic types including product types and quotient types.
+With data added to variants, this style of enum takes on many of the properties of union types in other languages. The combination of enum and union-like behavior is why this sort of type is often referred to as a “tagged union”. In type theory, it’s referred to as a sum type, and is one of many algebraic types such as product types and quotient types.
 
 Let's use this new type in our `Node` struct:
 
@@ -223,7 +223,7 @@ impl<T> List<T> {
 }
 ```
 
-Ok, that's a lot of new code, let's explain each of these lines.
+Ok, that's a lot of new code, let's understand each of these lines.
 
  - `impl<T> List<T>`: the `impl` keyword is used to define implementation on types, here we are using a generic implementation `impl<T>` for a generic `List<T>`.
 
@@ -309,7 +309,7 @@ Here everything is pretty straightforward right? There's just this `assert_eq!` 
 
 ## Cleaning memory and Traits
 
-Do we need to worry about cleaning up our list? Well, no, the Rust ownership system handles it to us automatically. However, we may have some problems if we just let the rust compiler to handle it.
+Do we need to worry about cleaning up our list? Well, no, the Rust ownership system handles it to us automatically. However, we may have some problems if we just let the Rust compiler to handle it.
 
 The problem here is with our recursive definition. When dropping the `Box` pointer, first we need to drop it's content (which is recursive) and then deallocating the pointer itself, because of that, we can't have a tail recursive optimization and, therefore, we might blow the stack for really big lists.
 
@@ -331,7 +331,7 @@ impl<T> Drop for List<T> {
 
 ## Shared Ownership and an Immutable List
 
-What if we want out list to be immutable? Like those used in functional language like Haskell or ML.
+What if we want our list to be immutable? Like those used in functional language like Haskell or ML.
 
 Let's look at a simple example:
 ```
@@ -358,13 +358,13 @@ First of all let's rewrite our interface as the methods `push` and `pop` doesn't
 ```
 impl<T> List<T> {
   pub fn new() -> Self {}
-  pub fn head(list: &List<T>) -> Option<&T> {}
-  pub fn tail(list: &List<T>) -> List<T> {}
-  pub fn cons(list: &List<T>, elem: T) -> List<T> {}
 }
+pub fn head(list: &List<T>) -> Option<&T> {}
+pub fn tail(list: &List<T>) -> List<T> {}
+pub fn cons(list: &List<T>, elem: T) -> List<T> {}
 ```
 
-Note that we've given up on using `self` because we'll get a functional-like style for our function calls using these static methods. Now let's introduce our `Rc` pointer in our `Link` type:
+Note that we've given up on using `self` because we'll get a functional style composing these defined functions. Now let's introduce our `Rc` pointer in our `Link` type:
 
 ```
 use std::rc::Rc;
@@ -381,29 +381,29 @@ impl<T> List<T> {
   pub fn new() -> Self {
     List { head: None }
   }
+}
 
-  pub fn head(list: &List<T>) -> Option<&T> {
-    list.head.as_ref().map(|node| &node.elem)
+pub fn head<T>(list: &List<T>) -> Option<&T> {
+  list.head.as_ref().map(|node| &node.elem)
+}
+
+pub fn tail<T>(list: &List<T>) -> List<T> {
+  List {
+    head: list.head.as_ref().and_then(|node| node.next.clone()),
   }
+}
 
-  pub fn tail(list: &List<T>) -> List<T> {
-    List {
-      head: list.head.as_ref().and_then(|node| node.next.clone()),  // `and_then` returns None if the option is None, otherwise calls f with the wrapped value and returns the result
-    }
-  }
-
-  pub fn cons(elem: T, list: &List<T>) -> List<T> {
-    List {
-      head: Some(Rc::new(Node {
-        elem,
-        next: list.head.clone(),  // we're calling `.clone()` in the `Rc` indirectly by calling in the `Option`
-      })),
-    }
+pub fn cons<T>(list: &List<T>, elem: T) -> List<T> {
+  List {
+    head: Some(Rc::new(Node {
+      elem,
+      next: list.head.clone(),
+    })),
   }
 }
 ```
 
-The code is, again, straightforward, so I'll leave you just with the comments.
+The code is, again, straightforward, so I'll leave you to read it by yourself.
 
 Now let's test it!
 
@@ -417,7 +417,7 @@ mod test {
     let list: List<i32> = List::new();
     assert_eq!(head(&list), None);
 
-    let list = cons(3, &cons(2, &cons(1, &List::new())));
+    let list = cons(&cons(&cons(&List::new(), 1), 2), 3);
     assert_eq!(head(&list), Some(&3));
 
     let list = tail(&list);
@@ -426,10 +426,6 @@ mod test {
     let list = tail(&list);
     assert_eq!(head(&list), Some(&1));
 
-    let list = tail(&list);
-    assert_eq!(head(&list), None);
-
-    // Make sure empty tail works
     let list = tail(&list);
     assert_eq!(head(&list), None);
   }
@@ -444,6 +440,7 @@ impl<T> Drop for List<T> {
   fn drop(&mut self) {
     let mut head = self.head.take();
     while let Some(node) = head {
+      // unwraps if it's unique
       match Rc::try_unwrap(node) {
         Ok(mut node) => {
           head = node.next.take();
@@ -457,7 +454,7 @@ impl<T> Drop for List<T> {
 }
 ```
 
-The only unknown operator here is the `match`, it's used in Rust to simulate patter matching just as in functional languages.
+The only unknown operator here is the `match`, it's used in Rust to simulate patter matching just like in functional languages.
 
 ## Iterator and Append
 
@@ -492,5 +489,202 @@ impl<'a, T> Iterator for Iter<'a, T> {
 }
 ```
 
-And for t
+And here are some tests:
 
+```
+#[test]
+fn iter_t() {
+  let list = cons(&cons(&cons(&List::new(), 1), 2), 3);
+
+  let mut iter = iter(&list);
+  assert_eq!(iter.next(), Some(&3));
+  assert_eq!(iter.next(), Some(&2));
+  assert_eq!(iter.next(), Some(&1));
+}
+```
+
+Now let's build our last piece of the puzzle, the append function. Its semantics is supposed to be quite simple, given two `List<T>` return a new `List<T>` which is the result of appending the final of the first list to the beginning of the second. Let's code it:
+
+```
+pub fn append<T>(l1: &List<T>, l2: &List<T>) -> List<T>
+where
+  T: Clone,
+{
+  match head(l1) {
+    None => List {
+      head: l2.head.clone(),
+    },
+    Some(e) => {
+      let mut l = tail(&l1);
+      l = append(&l, l2);
+      cons(&l, e.clone())
+    }
+  }
+}
+```
+
+You should be able to understand the whole code by now, except for the `ẁhere` clause. What it does is basically set a trait bound to the generic parameter `T`, which means that every possible `T` must implement a trait called `Clone`, in fact, we need to clone some elements in order to append the two lists. If you know Haskell, it's as simple as defining a type class bound, for example: `Clone a => List a -> List a -> List a`.
+
+That's how we test this new function:
+
+```
+#[test]
+fn append_t() {
+  let l1 = cons(&cons(&List::new(), 1), 2);
+  let l2 = cons(&cons(&List::new(), 5), 6);
+  let list = append(&l1, &l2);
+
+  let mut iter = iter(&list);
+  assert_eq!(iter.next(), Some(&2));
+  assert_eq!(iter.next(), Some(&1));
+  assert_eq!(iter.next(), Some(&6));
+  assert_eq!(iter.next(), Some(&5));
+}
+```
+
+And that's it !!! You did build a functional linked list using an imperative (multi paradigm) language!!! If you've read this until the end, I hope you have enjoyed it. See you in the next post if you're sticking around.
+
+Here's the full code for reference:
+
+```
+use std::rc::Rc;
+
+type Link<T> = Option<Rc<Node<T>>>;
+
+#[derive(Debug)]
+pub struct List<T> {
+  head: Link<T>,
+}
+
+#[derive(Debug)]
+struct Node<T> {
+  elem: T,
+  next: Link<T>,
+}
+
+impl<T> List<T> {
+  pub fn new() -> Self {
+    List { head: None }
+  }
+}
+
+pub fn head<T>(list: &List<T>) -> Option<&T> {
+  list.head.as_ref().map(|node| &node.elem)
+}
+
+pub fn tail<T>(list: &List<T>) -> List<T> {
+  List {
+    head: list.head.as_ref().and_then(|node| node.next.clone()),
+  }
+}
+
+pub fn cons<T>(list: &List<T>, elem: T) -> List<T> {
+  List {
+    head: Some(Rc::new(Node {
+      elem,
+      next: list.head.clone(),
+    })),
+  }
+}
+
+pub fn append<T>(l1: &List<T>, l2: &List<T>) -> List<T>
+where
+  T: Clone,
+{
+  match head(l1) {
+    None => List {
+      head: l2.head.clone(),
+    },
+    Some(e) => {
+      let mut l = tail(&l1);
+      l = append(&l, l2);
+      cons(&l, e.clone())
+    }
+  }
+}
+
+pub fn iter<T>(list: &List<T>) -> Iter<T> {
+  Iter {
+    next: list.head.as_ref().map(|node| &**node),
+  }
+}
+
+impl<T> Drop for List<T> {
+  fn drop(&mut self) {
+    let mut head = self.head.take();
+    while let Some(node) = head {
+      match Rc::try_unwrap(node) {
+        // unwraps if it's unique
+        Ok(mut node) => {
+          head = node.next.take();
+        }
+        Err(_) => {
+          break;
+        }
+      }
+    }
+  }
+}
+
+pub struct Iter<'a, T> {
+  next: Option<&'a Node<T>>,
+}
+
+impl<'a, T> Iterator for Iter<'a, T> {
+  type Item = &'a T;
+
+  fn next(&mut self) -> Option<Self::Item> {
+    self.next.map(|node| {
+      self.next = node.next.as_ref().map(|node| &**node);
+      &node.elem
+    })
+  }
+}
+
+#[cfg(test)]
+mod test {
+  use super::*;
+
+  #[test]
+  fn basics() {
+    let list: List<i32> = List::new();
+    assert_eq!(head(&list), None);
+
+    let list = cons(&cons(&cons(&List::new(), 1), 2), 3);
+    assert_eq!(head(&list), Some(&3));
+
+    let list = tail(&list);
+    assert_eq!(head(&list), Some(&2));
+
+    let list = tail(&list);
+    assert_eq!(head(&list), Some(&1));
+
+    let list = tail(&list);
+    assert_eq!(head(&list), None);
+  }
+
+  #[test]
+  fn iter_t() {
+    let list = cons(&cons(&cons(&List::new(), 1), 2), 3);
+
+    let mut iter = iter(&list);
+    assert_eq!(iter.next(), Some(&3));
+    assert_eq!(iter.next(), Some(&2));
+    assert_eq!(iter.next(), Some(&1));
+  }
+
+  #[test]
+  fn append_t() {
+    let l1 = cons(&cons(&List::new(), 1), 2);
+    let l2 = cons(&cons(&List::new(), 5), 6);
+    let list = append(&l1, &l2);
+
+    let mut iter = iter(&list);
+    assert_eq!(iter.next(), Some(&2));
+    assert_eq!(iter.next(), Some(&1));
+    assert_eq!(iter.next(), Some(&6));
+    assert_eq!(iter.next(), Some(&5));
+  }
+}
+
+```
