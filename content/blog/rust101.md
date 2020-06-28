@@ -1,5 +1,6 @@
 +++
 title = "An introduction to Rust implementing a functional list"
+description = "In this post I'll implement a functional linked list using the Rust programming language. The goal of it is to provide an overview and explanatory view of the language, so I won't be focusing much in the data structure itself. Anyway, I hope you have some fun reading it =D"
 date = 2020-06-27
 +++
 
