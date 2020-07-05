@@ -4,9 +4,9 @@ description = "A short introduction about myself and this webpage."
 template = "home.html"
 +++
 
-Hi there! So I've spent quite a bit to get motivation and set this up, but finally, it's here. In this place I plan to give a short presentation about myself, so if you're reading this, you're probably thinking about hiring me, in this case, you should definitely check out my [portfolio](@/portfolio/index.md), otherwise, you're just stalking around, then maybe you'd like to read some some fun stuff at my [personal blog](@/blog/_index.md).
+Hi there! After a long time getting motivation and setting this up, I finally made it. In this place I plan to give a short presentation about myself, so if you're reading this, you're probably thinking about hiring me, in this case, you should definitely check out my [portfolio](@/portfolio/index.md), otherwise, you're just stalking around, then maybe you'd like to read some some fun stuff at my [personal blog](@/blog/_index.md).
 
-Unfortunately, I'm too lazy to keep a bilingual webpage - sorry brazilian folks =( - so most of the content here will be in English, but there might be some in Portuguese as well.
+I built this webpage using [Zola](https://www.getzola.org), you may find the source code at my [github repository](https://github.com/flavluc/flavluc.github.io), typos and suggestions are always welcome. Unfortunately, I'm too lazy to keep a bilingual webpage - sorry brazilian folks =( - so most of the content here will be in English (specially the ones related to tech stuff), but there might be some in Portuguese as well.
 
 As of writing this post, I'm 20 yo and currently in the third year of my Computer Science course at [UFMG](https://en.wikipedia.org/wiki/Federal_University_of_Minas_Gerais). Also, I work as an undergraduate research assistant at the [Compilers Lab](http://lac.dcc.ufmg.br/) with some other colleagues and professors such as [Fernando](https://homepages.dcc.ufmg.br/~fernando/) and [Haniel](https://homepages.dcc.ufmg.br/~hbarbosa/). My main interests are related to Programming Languages, Functional Programming and Compilers, so you're probably guessing, and you're right, that I like to code mostly in Rust and Haskell, although most of the time I work with Python, JS and C++, however, I have hope that someday I'll be able to say that I'm actually working with my favorite languages.
 
