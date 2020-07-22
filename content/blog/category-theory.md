@@ -1,4 +1,8 @@
-# Category Theory
++++
+title = "[WIP] Study notes: Category Theory"
+description = "This report is supposed to hold a summary of my studies in Category Theory. I'll be using the material of the professor Bartosz Milewski, it can be found at his website, feel encouraged to check it out (just google it and you'll find out)."
+date = 2020-07-05
++++
 
 A category is just a bunch of dots (**objects**) connected with arrows (**morphisms**) in a specific way to meet some axioms/conditions.
 
