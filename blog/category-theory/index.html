@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>flávio.</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;print.css" media="print">
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;poole.css">
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;hyde.css">
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;base.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400italic,700|Libre+Baskerville">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+
+  
+  
+</head>
+
+<body class=" ">
+  
+  <div class="sidebar">
+    <div class="container sidebar-sticky">
+      <div><img class="pp" src="https:&#x2F;&#x2F;flavluc.github.io&#x2F;pp.png"></div>
+      <div class="sidebar-about">
+        
+        <a href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;">
+          <h1>flávio.</h1>
+        </a>
+        
+        <p class="lead">Hello! Welcome to my hideout! Take a cup of coffee, put on some music, and have fun &gt;.&lt;</p>
+        
+        
+      </div>
+
+      <ul class="sidebar-nav">
+        
+        
+        <li class="sidebar-nav-item">
+          <a href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;">home</a>
+        </li>
+        
+        <li class="sidebar-nav-item">
+          <a href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;blog">blog</a>
+        </li>
+        
+        <li class="sidebar-nav-item">
+          <a href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;portfolio">portfolio</a>
+        </li>
+        
+        
+      </ul>
+
+      <ul class="sidebar-nav">
+        
+        
+        <li class="sidebar-nav-item sidebar-social-item">
+          <a class="icon fa-stack fa-lg" href="https:&#x2F;&#x2F;github.com&#x2F;flavluc">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+          </a>
+          
+        <li class="sidebar-nav-item sidebar-social-item">
+          <a class="icon fa-stack fa-lg" href="https:&#x2F;&#x2F;twitter.com">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+          </a>
+          
+        <li class="sidebar-nav-item sidebar-social-item">
+          <a class="icon fa-stack fa-lg" href="https:&#x2F;&#x2F;reddit.com">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-reddit fa-stack-1x fa-inverse"></i>
+          </a>
+          
+          
+      </ul>
+    </div>
+  </div>
+  
+
+  <div class="content container">
+
+    
+<div class="post">
+  <h1 class="post-title">[WIP] Study notes: Category Theory</h1>
+  
+  <p class="lead">This report is supposed to hold a summary of my studies in Category Theory. I&#x27;ll be using the material of the professor Bartosz Milewski, it can be found at his website, feel encouraged to check it out (just google it and you&#x27;ll find out).</p>
+  
+  <span class="post-date">2020-07-05</span>
+  <p>A category is just a bunch of dots (<strong>objects</strong>) connected with arrows (<strong>morphisms</strong>) in a specific way to meet some axioms/conditions.</p>
+<p>There must be:</p>
+<ul>
+<li>Composition</li>
+<li>Identity</li>
+<li>Associativity</li>
+</ul>
+<h2 id="composition">Composition</h2>
+<p>Properties of Composition</p>
+<ul>
+<li>associative: h ∘ (g ∘ f ) = (h ∘ g) ∘ f = h ∘ g ∘ f</li>
+<li>identity: an arrow which is a unit of composition, f ∘ id A = f and id B ∘ f = f</li>
+</ul>
+<h2 id="isomorphism">Isomorphism</h2>
+<p>Let two morphisms <code>f</code> and <code>g</code> in any category such that:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">f :: a -&gt; b
+g :: b -&gt; a
+</span></pre>
+<ul>
+<li>f is an isomorphism if there exist g such that:</li>
+</ul>
+<p>g . f = id_a
+f . g = id_b</p>
+<h3 id="inverse-function">Inverse function</h3>
+<p>In category theory we can't look inside of sets, so we can't tell if a function is injective or surjective by looking at the object, but...</p>
+<ul>
+<li>injective function = monic -&gt; monomorphism</li>
+<li>surjective function = epic -&gt; epimorphism</li>
+</ul>
+<p>These are defined for any category, let's look at what they are.</p>
+<p>Suppose objects A, B and C:</p>
+<ul>
+<li>If for every object C and every pair of morphisms <code>g1, g2 :: B -&gt; C</code> such that for a morfism <code>f :: A-&gt;B</code>, if <code>g1.f = g2.f</code> then <code>g1 = g2</code>, then <code>f</code> is an <strong>epimorphism</strong> (surjective)</li>
+<li>If for every object C and every pair of morphisms <code>g1, g2 :: C -&gt; A</code> such that for a morfism <code>f :: A-&gt;B</code>, if <code>f.g1 = f.g2</code> then <code>g1 = g2</code>, then <code>f</code> is a <strong>monomorphism</strong> (surjective)</li>
+</ul>
+<ul>
+<li>OBS: it's not true that if a morfism is epi and mono then it's an isomorphism (in set theory this is true, but here it's not).</li>
+</ul>
+<h2 id="examples-of-categories">Examples of Categories</h2>
+<h3 id="no-objects">No Objects</h3>
+<p>A category with no objects, and therefore, no morphisms. This is pretty useless in itself. But it make sense in a context, for example, the category of all categories.</p>
+<h3 id="simple-graphs">Simple Graphs</h3>
+<p>Start with a directed graph and keep adding stuff until you make it into a category:</p>
+<ul>
+<li>add identity arrows</li>
+<li>for any composable pair of arrows add a composition arrow</li>
+<li>for any added arrow, consider its composition with others</li>
+</ul>
+<p>Such process is called a <strong>free construction</strong>, which is the process of completing a given structure by extending it with a minimum number of items to satisfy a property.</p>
+<h3 id="orders">Orders</h3>
+<p>Let's have a quick look at order theory.</p>
+<p>First, can an order be defined in terms of a category? Look at it this way, the category where morphisms are relations between objects: less than or equal. Let's check the conditions:</p>
+<ul>
+<li>identity? a &lt;= a</li>
+<li>composition? a &lt;= b &lt;= c -&gt; a &lt;= c</li>
+<li>associativity? yes</li>
+</ul>
+<h4 id="hom-set">Hom-set</h4>
+<p>Before get into examples let's define a <strong>hom-set</strong>. It's nothing more than a set of morphisms between two objects, say a and b, then it's written as C(a, b) (or Hom_C(a, b)).</p>
+<h4 id="preorders">Preorders</h4>
+<p>A binary relation &lt;= on a set X is a <strong>preorder</strong> iff the relation &lt;= is both <strong>reflexive</strong> (for all a, a R a) and <strong>transitive</strong> (for all a,b and c, a R b and b R c -&gt; a R c).</p>
+<p>We can think of reflexivity and transitivity in terms of identity and composition. Indeed a preorder is a category.</p>
+<p>A preorder is a category where theres 0 or 1 morphism between every pair of objects. We call such category a <strong>thin</strong> category. A <strong>preorder is a thin category</strong>. Therefore, every hom-set in a preorder is either empty or a singleton. You may, however, have cycles in a preorder.</p>
+<p><strong>The counter example</strong>: The preorder (or a thin category) is an interesting category because every morphisms is an epimorphism and a monomorphism, BUT, in a thin category a bimorphism is not necessarily invertible (i.e. an isomorphism).</p>
+<h4 id="equivalence-relations">Equivalence Relations</h4>
+<p>An <strong>equivalence relation</strong> is a preorder that is also symmetric. A binary relation R is <strong>symmetric</strong> if a R b -&gt; b R a.</p>
+<p>An equivalence relation ≡ divides a set S into <strong>equivalence classes</strong>. The equivalence class of an element x is [x]≡ = {y | x ≡ y}.</p>
+<ul>
+<li>Every preorder &lt;= induces a natural equivalence relation  ≡_&lt;=:</li>
+</ul>
+<ul>
+<li>a ≡_&lt;= b iff a &lt;= b and b &lt;= a</li>
+</ul>
+<h4 id="partial-order">Partial Order</h4>
+<p>A <strong>partial order</strong> is a preorder that is antisymmetric. A binary relation R is <strong>antisymmetric</strong> if a R b and b R a implies a = b. Partial orders can't have cycles, you can look at it as a DAG (Directed Acyclic Graph).</p>
+<p>A <strong>partially ordered set</strong> or <strong>poset</strong> is a set X equipped with a partial order &lt;=, often described as the pair (X, &lt;=).</p>
+<p>In Haskell, we can define a partial order through type classes:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">class PartialOrder t where
+ (⊑) :: t -&gt; t -&gt; Bool
+</span></pre><h4 id="total-orders">Total Orders</h4>
+<p>A <strong>total order</strong> &lt;= is a binary relation that is <strong>total</strong>, <strong>transitive</strong> and <strong>antisymmetric</strong>.</p>
+<p>A binary relation R is total if for any two values a and b, a R b or b R a.</p>
+<p>Totality implies reflexivity, which means that every total order is also a <strong>partial order</strong>.</p>
+<h3 id="monoid">Monoid</h3>
+<p>Monoid is a really simple but extremely powerful concept. It's quite influent in arithmetics (addition and multiplication are monoids), but also in programming. Strings, lists, foldable data structures, futures in concurrent programming, and events in functional reactive programming are all examples of monoids.</p>
+<h4 id="monoid-as-a-set">Monoid as a Set</h4>
+<p>Monoid is defined as a set with a binary operation. We require that the operation must be associative and there must be one special unit (identity) element.</p>
+<p>Examples:</p>
+<ul>
+<li>Natural numbers with zero form a monoid under adition.</li>
+<li>String's a monoid under string concatenation (a non comutative one)</li>
+</ul>
+<p>Here's a declaration of a <code>Monoid</code> typeclass in Haskell</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">class Monoid m where
+    mempty  :: m
+    mappend :: m -&gt; m -&gt; m
+</span></pre>
+<ul>
+<li>It's responsibility of the programmer to make sure the monoidal properties are satisfied.</li>
+</ul>
+<h4 id="monoid-as-a-category">Monoid as a Category</h4>
+<p>Every monoid can be described as a single object category with a set of morphisms that follow appropriate rules of composition.</p>
+<p>For examples we can think of an object as a set of natural numbers and the set of morphisms as &quot;adders&quot;. The identity morphism would be a 0-adder. So a composition of the 5-add with the 7-adder would be a 12-adder.</p>
+<p>For every monoidal category M, we have a hom-set M(m, m) of the single object m in the category. We can easily define a binary operator in this set. The monoidal product of two set-elements is the element corresponding to the composition of the corresponding elements. The composition always exist because the source and the target object are the same. And the identity morphism is the neutral element of this product.</p>
+<p>Clearly there's a one-to-one correspondence between Monoidal categories and sets.</p>
+<h3 id="kleisi-categories">Kleisi Categories</h3>
+<p>Let's see how to model non-pure functions, or side effects in category theory. For example functions that log their execution, something that would likely be implemented by mutating some global state:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">string logger;
+
+bool negate ( bool b) {
+  logger += &quot;Not so! &quot;;
+  return ! b;
+}
+</span></pre>
+<p>We can make this function pure by using pairs returning a log string:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">pair &lt;bool , string &gt; negate( bool b) {
+  return make_pair( ! b, &quot;Not so! &quot;);
+}
+</span></pre>
+<p>The idea is that the log will be aggregated between function calls. Here's a more practical example, suppose we want to create a function to upper case strings while still having a log property. First, let's create a <code>Writer</code> template to enpasulate the <code>embellishment</code> of the function:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">template&lt;class A&gt;
+using Writer = pair &lt; A, string &gt; ;
+</span></pre>
+<p>And here's our embellished functions:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">Writer &lt; string &gt; toUpper(string s) {
+  string result;
+  int ( * toupperp)( int ) = &amp; toupper;
+  transform(begin(s), end(s), back_inserter(result), toupperp);
+  return make_pair (result, &quot;toUpper &quot;);
+}
+
+Writer &lt; vector &lt; string &gt;&gt; toWords(string s) {
+  return make_pair(words(s), &quot;toWords &quot;);
+}
+</span></pre>
+<p>What if we want to compose these two functions?</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">Writer &lt; vector &lt; string &gt;&gt; process(string s) {
+  auto p1 = toUpper(s);
+  auto p2 = toWords(p1.first);
+  return make_pair (p2.first, p1.second + p2.second);
+}
+</span></pre>
+<p>Now the aggregation does not depend on a global state, instead, they're produced locally and externally concatenated into a larger log.</p>
+<p>A fact is that writing a program in this style would be a pain in the ass with a lot of repetitive code. A way to work around it is to abstract function composition itself. Before we do that, we should take a look at a category theory perspective of this problem.</p>
+<h4 id="the-writer-category">The Writer Category</h4>
+<p>Here we're still talking about categories of types and functions, however, instead a normal composition function, we now have an embellished element. So we have to redefine our composition abstraction and that's how we do it:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">auto const compose = []( auto m1, auto m2) {
+  return [m1, m2]( auto x) {
+    auto p1 = m1(x);
+    auto p2 = m2(p1.first);
+    return make_pair (p2.first, p1.second + p2.second);
+  };
+};
+</span></pre>
+<p>*Obs: the above code uses C++14 features such as generalized lambda functions with return type deduction.</p>
+<p>So now we have our category with newly defined composition. Another question is: what are our identity functions?</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">template&lt;class A&gt; Writer &lt; A &gt; identity(A x) {
+  return make_pair(x, &quot;&quot;);
+}
+</span></pre>
+<p>This category is also trivially associative (composition + string concatenation), so we indeed have a category here. In fact, we could've changed the string concatenation for any other monoid, we just have to replace <strong>mappend</strong> inside compose and <strong>mempty</strong> inside identity (in place of + and &quot;&quot; ).</p>
+<ul>
+<li>A good library writer should be able to identify the bare minimum of constraints that make the library work — here the logging library’s only requirement is that the log have monoidal properties.</li>
+</ul>
+<h4 id="writer-in-haskell">Writer in Haskell</h4>
+<p>Here's the same code we defined above, but in Haskell.</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">type Writer a = (a, String )
+
+( &gt;=&gt; ) :: (a -&gt; Writer b) -&gt; (b -&gt; Writer c) -&gt; (a -&gt; Writer c)
+m1 &gt;=&gt; m2 = \ x -&gt;
+  let (y, s1) = m1 x
+    (z, s2) = m2 y
+  in (z, s1 ++ s2)
+
+return :: a -&gt; Writer a -- the identity function
+return x = (x, &quot;&quot;)
+
+upCase :: String -&gt; Writer String
+upCase s = (map toUpper s, &quot;upCase &quot;)
+
+toWords :: String -&gt; Writer [ String ]
+toWords s = (words s, &quot;toWords &quot;)
+
+process :: String -&gt; Writer [ String ]
+process = upCase &gt;=&gt; toWords
+</span></pre>
+<p>In fact, things are a little more terse and we get a lot of help from the compiler.</p>
+<h4 id="kleisli-categories">Kleisli Categories</h4>
+<p>The category we just defined is called <code>Kleisli Category</code>, a category based on a monad.</p>
+<p>We can say that each Kleisli category defines its own way of composing morphisms with embellishment, as well as the identity morphisms with respect to that composition.</p>
+<p>In particular, our examples used a writer monad for logging the execution of functions. It's also an example of a more general mechanism for embedding effects in pure computations.</p>
+<h3 id="products-and-coproducts">Products and Coproducts</h3>
+<h4 id="universal-construction">Universal Construction</h4>
+<p>There's a common construction in category theory called the <strong>universal construction</strong> for defining objects in terms of their relationship. It basically boils down to a two-step process:</p>
+<ul>
+<li>Pick a pattern in terms of objects and morphisms and find all the matching elements in the category.</li>
+<li>Establish a kind of ranking between those hits and find the best fit.</li>
+</ul>
+<h4 id="initial-object">Initial Object</h4>
+<p>Consider the following example for the above method: think about the pattern as an object and the ranking relation as <code>a</code> is more initial than <code>b</code> if there's a single morphism a -&gt; b. Then we may have a &quot;best&quot; object (there's no guarantee that this object exist) which we define as an <strong>initial object</strong>.</p>
+<p>The <strong>initial object</strong> is the object that has one and only one morphism going to any object in the category.</p>
+<p>This definition guarantees an <strong>uniqueness up to isomorphism</strong> on the initial objects (there's no uniqueness guarantee). Some examples of such objects are the <code>least element</code> in a poset (partially ordered set) and an empty set in a category made of sets and functions. Notice that on a poset there's no guarantee of the existence of a initial object (for example in the set of all positive integers).</p>
+<h4 id="terminal-objects">Terminal Objects</h4>
+<p>Consider now the same pattern as before, but changing the ranking relation by reverting the direction. In other words, an object <code>a</code> is more terminal than <code>b</code> if there's a single morphism b -&gt; a.</p>
+<p>The <strong>terminal object</strong> is the object with one and only one morphism coming to it from any object in the category.</p>
+<p>Again we have an uniqueness up to isomorphisms. As an example, in a poset, the terminal object, if it exists, is the biggest object as well as in the set category, the terminal object is a singleton (set with only one element).</p>
+<h4 id="duality">Duality</h4>
+<p>Duality is a very important property in category theory. For every constructing you may come up with, there will be an opposite in which you can get by reversing the arrows and redefining the compositions.</p>
+<p>Such opposite categories are often prefixed with &quot;co&quot;, so you have products and coproducts, monads and comonads and so on.</p>
+<p>Given this definition, it's clear enough that initial and terminal objects are in a duality relationship, as in the universal construction process we just inverted the morphisms in each ranking relation.</p>
+<h4 id="isomorphisms">Isomorphisms</h4>
+<p>As for an intuition, we can think as isomorphism as a one-to-one mapping between two objects, such that every part of one object has a correspondence in the other one.</p>
+<p>In category theory, isomorphism means invertible morphisms, so a formal definition in term of composition and identity can be thought as:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">f . g = id
+g . f = id
+</span></pre>
+<p>When we said that initial and terminal objects are unique up to isomorphism, we actually meant that they're unique up to unique isomorphism. In principle, there can be many isomorphisms between two objects (think about {true, false}, {black, white}), but for the initial and terminal objects, the uniqueness property of the f and g morphisms guarantees a unique isomorphism for any two objects (see proof in the book).</p>
+<p>In fact, this “uniqueness up to unique isomorphism” is the important property of all universal constructions.</p>
+<h4 id="product">Product</h4>
+<p>A cartesian product of any two sets is a set of pairs. In categories, we can define a pattern to generalize the product definition using universal construction.</p>
+<p>All we can say, in the categorical world, that there are two functions, the projections, from the product to each of the constituents (in Haskell they're <code>fst</code> and <code>snd</code>).</p>
+<p>Now, a pattern for choosing candidate objects is an object <code>c</code> and two morphisms <code>p</code> and <code>q</code> such that:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">p :: c -&gt; a
+q :: c -&gt; b
+</span></pre>
+<p>The ranking relation can be thought as: given two candidates, let it be (c, p, q) and (c', p', q'), we would like to say that c is &quot;better&quot; than c' if there's a morphism m from c' to c and, therefore, the projections p' and q' such that:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">p’ = p . m
+q’ = q . m
+</span></pre>
+<p>We can also say that m factorizes p' and q', for examples on how m shrinks information from any other product candidate check out the book section.</p>
+<p>We should notice as well that a product is also unique up to unique isomorphism.</p>
+<p>A high order function that produces the factorizing function m from two candidates is sometimes called the <strong>factorizer</strong>.</p>
+<h4 id="coproduct">Coproduct</h4>
+<p>As a dual of Product, when we reverse the morphisms we end up with two <strong>injections</strong>, let's call them i and j:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">i :: a -&gt; c
+j :: b -&gt; c
+</span></pre>
+<p>The ranking relation is also inverted, so object c is &quot;better&quot; than c' if there's an unique morphism m from c to c' that factorizes the injections:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">i&#39; = m . i
+j&#39; = m . j
+</span></pre>
+<p>As in Products, the best object is called coproduct and, if it exists, it's unique up to unique isomorphism.</p>
+<p>In the category of sets a coproduct is a <strong>disjoint union</strong> of two sets. In a category of types, it's called a <strong>tagged union</strong> or <strong>variant</strong> of two types.</p>
+<p>In C++ the unions are untagged, so we must keep track of the union member, one could implement a tagged union using enumeration like this:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">struct Contact {
+    enum { isPhone, isEmail } tag;
+    union { int phoneNum; char const * emailAddr; };
+};
+</span></pre>
+<p>And then we can implement the projections as constructors or functions:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">Contact PhoneNum(int n) {
+    Contact c;
+    c.tag = isPhone;
+    c.phoneNum = n;
+    return c;
+}
+</span></pre>
+<p>In Haskell things are way simpler to define a sum types, we just use a <code>data</code> keyword:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">data Contact = PhoneNum Int | EmailAddr String
+</span></pre><h4 id="algebraic-data-types">Algebraic Data Types</h4>
+<p>Product and sum types can be really powerful when combined (composition). We have two commutative monoidal structures underlying the type system:</p>
+<ul>
+<li>Sum type with <code>Void</code> as the neutral element</li>
+<li>Product type with the unit type <code>()</code> as the neutral element</li>
+</ul>
+<p>We can think of them as analogous to addition and multiplication where <code>Void</code> = 0 and <code>()</code> = 1. Let's look at some algebraic properties and how we'd implement them by using types:</p>
+<ul>
+<li>a*0 = 0 --&gt; <code>(a, Void) = Void</code></li>
+<li>a * (b + c) = a * b + a * c --&gt; <code>(a, Either b c) = Either (a, b) (a, c)</code></li>
+</ul>
+<p>In fact the equality holds up to an isomorphism. We can implement functions to convert them from one side to another and these functions will be the inverse of each other.</p>
+<p>We can call this structure a <strong>ring</strong>, which consists of a set equipped with two binary operations that generalize the arithmetic operations of addition and multiplication. However, a true ring must have an additive inverse, in our case we don't actually have it, we do have sum (sum types) but no subtraction. The given name for such structure is <strong>semiring</strong> or <strong>rig</strong>.</p>
+<p>The list type is quite interesting, because it’s defined as a solution to an equation. The type we are defining appears on both sides of the equation:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">List a = Nil | Cons a (List a)
+</span></pre>
+<p>If we do our usual substitutions, and also replace List a with x, we get the equation: <code>x = 1 + a * x</code>.</p>
+<p>We can’t solve it using traditional algebraic methods because we can’t subtract or divide types. But we can try a series of substitutions, where we keep replacing x on the right hand side with (1 + a*x), and use the distributive property. This leads to the following series:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">x = 1 + a*x
+x = 1 + a*(1 + a*x) = 1 + a + a*a*x
+x = 1 + a + a*a*(1 + a*x) = 1 + a + a*a + a*a*a*x
+...
+x = 1 + a + a*a + a*a*a + a*a*a*a...
+</span></pre>
+<p>We end up with an infinite sum of products (tuples), which is a geometric series.</p>
+<p>One thing worth mentioning is that there's also a mapping between types and a semiring formed by logigal <strong>or</strong> and <strong>and</strong> operators. This analogy goes deeper, and is the basis of the Curry-Howard isomorphism between logic and type theory. </p>
+<h3 id="functors">Functors</h3>
+<p>A functor is just a mapping that preserves structure between categories. Structures on categories are morphisms and compositions. So a functor between two categories must map every object as well as every morphism, preserving the connections.</p>
+<p>Example:</p>
+<p>Say we have categories C and D, then for every morphism in C <code>f :: a -&gt; b</code>, in D we must have a mapping <code>F f :: F a -&gt; F b</code>.</p>
+<p>Also, if h is a composition <code>h = g . f</code>, then <code>F h = F g . F f</code> must be a composition of the two images under the functor F.</p>
+<p>Finally, the identity must also be mapped to identities: <code>F id_a = id_F a</code>.</p>
+<p>These conditions make functors very restrictive, they may smash objects together, it may glue multiple morphisms into one, but it may never break things apart.</p>
+<p>In programming, we can think about functors mapping the categories of types to itself, such functors are called <strong>endofunctors</strong>.</p>
+<h4 id="the-maybe-functor">The Maybe functor</h4>
+<p><code>Maybe</code> is a type constructor, so it maps types to types. To make it a functor we must also map <code>morphisms</code> (functions). So, for any function <code>f :: a -&gt; b</code> we want to produce a function <code>f' :: Maybe a -&gt; Maybe b</code>, and we do it by implementing <code>fmap</code>. We say that <code>fmap</code> lifts a function, in this case to a <code>Maybe</code> value.</p>
+<p>To show that <code>Maybe</code> is actually a functor we must prove the functors laws (that means, that it preserves the structure), they are: composition and identity. To do that we're going to use <em>equation reasoning</em>.</p>
+<h4 id="equational-reasoning">Equational Reasoning</h4>
+<p>This is a common proof technique in haskell, we can use it because Haskell is pure, therefore we can inline and refactor a function application without changing the program's semantics.</p>
+<p>For the identity, let's prove <code>fmap id = id</code>:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">fmap id Nothing ==inlining== Nothing ==refactoring== id Nothing
+
+fmap id (Just x) ==inlining== Just (id x) ==inlining== Just x ==refactoring== id (Just x)
+</span></pre>
+<p>For the composition we must prove <code>fmap (g . f) = fmap g . fmap f</code>:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">fmap (g . f) Nothing ==inlining== Nothing ==refactoring== fmap g Nothing ==refactoring== fmap g (fmap f Nothing)
+
+fmap (g . f) (Just x) ==inlining== Just ((g . f) x) ==inlining== Just (g (f x)) ==refactoring== fmap g (Just (f x)) ==refactoring== fmap g (fmap f (Just x)) ==refactoring== (fmap g . fmap f) (Just x)
+</span></pre><h4 id="functors-as-containers">Functors as Containers</h4>
+<p>Functors can be thought as containers with values inside. However, this intuition may seems to not embrace some specific functors. In fact, in Haskell, functions can be memoized, so we can turn it into a table lookup as there's no side effects. This might seem impractical as functions may have infinite domains and codomains, but in category theory we can handle infinity. Therefore this table is nothing more than a container with the memoized functions acting as a functor.</p>
+<p>According to this interpretation, a functor object is something that may contain a value or values of the type it’s parameterized upon. Or it may contain a recipe for generating those values, in the case of infinite values.</p>
+<p>All we are interested in is to be able to manipulate those values using functions. If the values can be accessed, then we should be able to see the results of this manipulation. If they can’t, then all we care about is that the manipulations compose correctly and that the manipulation with an identity function doesn’t change anything (the functors' laws). We don’t really care about being able to access the values inside a functor object.</p>
+<h4 id="functor-composition">Functor Composition</h4>
+<p>As well as functions in sets compose, functors in categories also compose. Let's look at an example of a <code>Maybe</code> list datatype:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">square x = x * x
+
+mis :: Maybe [Int]
+mis = Just [1, 2, 3]
+
+mis2 = fmap (fmap square) mis
+</span></pre>
+<p>The compiler, after analyzing the types, will figure out that, for the outer fmap, it should use the implementation from the Maybe instance, and for the inner one, the list functor implementation.</p>
+<p>The above code can be rewritten as:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">mis2 = (fmap . fmap) square mis
+</span></pre>
+<p>Functors can be viewed as morphisms in categories (objects). So a category of categories (small) is called <strong>cat</strong>.</p>
+<h3 id="functoriality">Functoriality</h3>
+<p>Let's see now which type constructors (which corresponds to mapping between objects in categories) can be extended to functors (which include mappings between morphisms).</p>
+<h4 id="bifunctors">Bifunctors</h4>
+<p>A bifunctor is just a functor of two arguments. On objects, a bifunctor map every pair of objects say in categories C and D to an object in category E. <code>C x D -&gt; E</code>. To fully define functoriality we must also map morphisms. Here we're mapping pair of morphisms (from CxD), to a single morphism (to E), they can be defined as a single morphism in the cartesian category, this is how we compose them:</p>
+<p><code>(f, g) ∘ (f', g') = (f ∘ f', g ∘ g')</code></p>
+<p>It clearly is associative and has an identity, so the cartesian product of categories is indeed a category.</p>
+<p>An easier way to think about bifunctors would be to consider them functors in each argument separately. So instead of translating functorial laws — associativity and identity preservation — from functors to bifunctors, it would be enough to check them separately for each argument. However, in general, separate functoriality is not enough to prove joint functoriality. Categories in which joint functoriality fails are called <strong>premonoidal</strong>.</p>
+<p>In Haskell we can define a bifunctor in its category of types like this:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">class Bifunctor f where
+    bimap :: (a -&gt; c) -&gt; (b -&gt; d) -&gt; f a b -&gt; f c d
+    bimap g h = first g . second h
+    first :: (a -&gt; c) -&gt; f a b -&gt; f c b
+    first g = bimap g id
+    second :: (b -&gt; d) -&gt; f a b -&gt; f a d
+    second = bimap id
+</span></pre>
+<p>When declaring an instance of <code>Bifunctor</code>, you have a choice of either implementing <code>bimap</code> and accepting the defaults for <code>first</code> and <code>second</code>, or implementing both <code>first</code> and <code>second</code> and accepting the default for <code>bimap</code>.</p>
+<h4 id="product-and-coproduct-bifunctors">Product and Coproduct Bifunctors</h4>
+<p>An example of bifunctor is the categorical product, if the product exists for any pair of objects, the mapping from those objects to the product is bifunctorial. Here's the <code>Bifunctor</code> instance for a pair constructor (product type):</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">instance Bifunctor (,) where
+    bimap f g (x, y) = (f x, g y)
+</span></pre>
+<p>By duality, a coproduct, if it’s defined for every pair of objects in a category, is also a bifunctor. In Haskell, this is exemplified by the Either type constructor being an instance of Bifunctor:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">instance Bifunctor Either where
+    bimap f _ (Left x)  = Left (f x)
+    bimap _ g (Right y) = Right (g y)
+</span></pre>
+<p>Now, remember when we talked about monoidal categories? A monoidal category defines a binary operator acting on objects, together with a unit object. I mentioned that Set is a monoidal category with respect to cartesian product, with the singleton set as a unit. And it’s also a monoidal category with respect to disjoint union, with the empty set as a unit. What I haven’t mentioned is that one of the requirements for a monoidal category is that the binary operator be a bifunctor (<strong>tensor product ⊗</strong>). This is a very important requirement — we want the monoidal product to be compatible with the structure of the category, which is defined by morphisms. We are now one step closer to the full definition of a monoidal category (we still need to learn about naturality, before we can get there).</p>
+<h4 id="functorial-algebraic-data-types">Functorial Algebraic Data Types</h4>
+<p>We have just seen that sums and products are functorial. We also know that functors compose. So if we can show that the basic building blocks of ADTs are functorial, we’ll know that parameterized ADTs are functorial too.</p>
+<p>First, there are the items that have no dependency on the type parameter of the functor:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">data Const a b = Const a
+
+instance Functor (Const a) where
+  fmap _ (Const a) = Const a
+</span></pre>
+<p>Then there are the elements that simply encapsulate the type parameter itself:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">data Identity a = Identity a
+
+instance Functor Identity where
+    fmap f (Identity x) = Identity (f x)
+</span></pre>
+<p>Everything else in algebraic data structures is constructed from these two primitives using products and sums:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">data Maybe a = Nothing | Just a
+type Maybe a = Either (Const () a) (Identity a)
+</span></pre>
+<p>So Maybe is the composition of the bifunctor Either with two functors, Const () and Identity. (Const is really a bifunctor, but here we always use it partially applied.)</p>
+<p>We will now show that a composition of this bifunctor with two functors is also a bifunctor. Given two morphisms, we simply lift one with one functor and the other with the other functor. We then lift the resulting pair of lifted morphisms with the bifunctor. In Haskell we can express this as:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">newtype BiComp bf fu gu a b = BiComp (bf (fu a) (gu b))
+
+instance (Bifunctor bf, Functor fu, Functor gu) =&gt;
+  Bifunctor (BiComp bf fu gu) where
+    bimap f1 f2 (BiComp x) = BiComp ((bimap (fmap f1) (fmap f2)) x)
+</span></pre>
+<p>That means that our <code>BiComp</code> type is a bifunctor only if <code>bf</code> is a bifunctor and <code>fu</code> and <code>gu</code> are functors. The x in the definition of bimap has the type:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">bf (fu a) (gu b)
+</span></pre>
+<p>which is quite a mouthful. The outer bimap breaks through the outer bf layer, and the two fmaps dig under fu and gu, respectively. If the types of f1 and f2 are:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">f1 :: a -&gt; a&#39;
+f2 :: b -&gt; b&#39;
+</span></pre>
+<p>Then the final result is of type <code>bf (fu a') (gu b')</code>.</p>
+<h4 id="covariant-and-contravariant-functors">Covariant and Contravariant Functors</h4>
+<p>Remembering the reader functor, it's just a function constructor partially applied:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">(-&gt;) r
+
+type Reader r a = r -&gt; a
+
+instance Functor (Reader r) where
+    fmap f g = f . g
+</span></pre>
+<p>So, we know that it is a functor when partially applied, but is this a bifunctor in both parameter? Let’s try to make it functorial in the first argument. We’ll start with a type synonym — it’s just like the Reader but with the arguments flipped:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">type Op r a = a -&gt; r
+</span></pre>
+<p>When implementing <code>Functor</code> we would need to have an <code>fmap</code> f type:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">fmap :: (a -&gt; b) -&gt; (a -&gt; r) -&gt; (b -&gt; r)
+</span></pre>
+<p>Well, this is kind of impossible right? It would be different if we somehow invert the first function...</p>
+<p><strong>A short recap</strong>: For every category C there is a dual category Cop. It’s a category with the same objects as C, but with all the arrows reversed.</p>
+<p>Now consider a mapping G that maps from category C to D, but when mapping the morphisms it reverses them. It takes a morphism f:: b -&gt; a in C and first map it to the opposite f_op :: a -&gt; b and then uses a functor F that maps from C_op to D to get F f_op :: F a -&gt; F b. Considering that the object mapping of F and G are the same, we can say that G is just a functor with a twist G f :: (b -&gt; a) -&gt; (G a -&gt; G b), we call it <strong>contravariant functor</strong>. It's just a regular functor from the opposite category, the regular functor is called <strong>covariant functor</strong>.</p>
+<p>Here's the definition of a contravariant functor in Haskell:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">class Contravariant f where
+    contramap :: (b -&gt; a) -&gt; (f a -&gt; f b)
+</span></pre><h4 id="profunctors">Profunctors</h4>
+<p>We’ve seen that the function-arrow operator is contravariant in its first argument and covariant in the second. If the target category is <strong>Set</strong> the we call this to be a profunctor. A profunctor is defined as <code>C_op x D -&gt; Set</code>.</p>
+<p>Here's the definition of a profunctor typeclass in Haskell:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">class Profunctor p where
+  dimap :: (a -&gt; b) -&gt; (c -&gt; d) -&gt; p b c -&gt; p a d
+  dimap f g = lmap f . rmap g
+  lmap :: (a -&gt; b) -&gt; p b c -&gt; p a c
+  lmap f = dimap f id
+  rmap :: (b -&gt; c) -&gt; p a b -&gt; p a c
+  rmap = dimap id
+</span></pre>
+<p>Just as for Bifunctor we can provide one of the implementations and get the other by default. Below is how we implement the Profunctor class for the function-arrow operator:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">instance Profunctor (-&gt;) where
+  dimap ab cd bc = cd . bc . ab
+  lmap = flip (.)
+  rmap = (.)
+</span></pre>
+<p>Profunctors have their application in the Haskell lens library.</p>
+<h3 id="function-types">Function Types</h3>
+<p>A function between a and b (<code>a -&gt; b</code>) is just the hom-set between the objects a and b (hom(a, b)) in the Set category (category of sets), so a function type is also an object in this category, because it's after all, just a set. For other categories this is not true because the hom-set is <strong>external</strong> to the category, but there's a way to construct hom-sets as objects, they are then called <strong>internal hom-sets</strong>.</p>
+<h4 id="universal-construction-1">Universal Construction</h4>
+<p>Let's try to construct a function type, or more generally, a internal hom-set using universal construction. We need a pattern that involves three objects: the function object (a=&gt;b), the argument (a) and the result (b). This pattern is called to be an <strong>evaluation</strong>. We now take candidates of the product of the function type a=&gt;b and argument type a (a=&gt;b x a), this is an object, so we pick, as our application morphism, an arrow <code>eval</code> from this object to b. </p>
+<p>So that’s the pattern: a product of two objects a=&gt;b and a connected to another object b by a morphism <code>eval</code>.</p>
+<p>The last piece of our universal construction is a ranking relation.  This is usually done by requiring that there be a mapping between candidate objects — a mapping that somehow factorizes our construction. In our case, we’ll decree that a=&gt;b together with the morphism <code>eval</code> from a=&gt;b×a to b is better than some other z with its own application g, if and only if there is a unique mapping h from z to a=&gt;b such that the application of g' factors through the application of <code>eval</code>.</p>
+<p>We know that the product (a=&gt;b x a) is a functor (functoriality of the product), since we are not touching the second component of the product z × a, we will lift the pair of morphisms (h, id), where id is an identity on a. </p>
+<p>So, here’s how we can factor one application, <code>eval</code>, out of another application g:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">g = eval ∘ (h × id)
+</span></pre>
+<p>Of course, there is no guarantee that such an object a⇒b exists for any pair of objects a and b in a given category. But it always does in Set. Moreover, in Set, this object is isomorphic to the hom-set Set(a, b). This is why, in Haskell, we interpret the function type a-&gt;b as the categorical function object a⇒b.</p>
+<h4 id="currying">Currying</h4>
+<p>If we look at the candidates for the function object, we think of the morphism g as a function of two variables. In fact, in Set, g is a function from pairs of values, one from the set z and one from the set a:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">g :: z × a -&gt; b
+</span></pre>
+<p>The universal property tells us that for each such g there is a unique morphism h that maps z to a function object a=&gt;b. In Set, this just means that h is a function that takes one variable of type z and returns a function from a to b. That makes h a higher order function:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">h :: z -&gt; (a⇒b)
+</span></pre>
+<p>Given a g there's always an unique h, and given any h, you can recreate the two-argument function g using the formula:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">g = eval ∘ (h × id)
+</span></pre>
+<p>This gives us a one-to-one correspondence between the curried (h) and uncurried (g) versions of the same function.</p>
+<h4 id="exponentials">Exponentials</h4>
+
+</div>
+
+  </div>
+
+  <script src="https://flavluc.github.io/live2d/L2Dwidget.min.js"></script>
+
+  <script type="text/javascript">
+
+    const display = window.matchMedia("(max-width: 768px)").matches ?
+      // window width is at less than 768px
+      ({ width: 120, height: 250, vOffset: -60 }) :
+      // window width is greater than 768px
+      ({ width: 160, height: 310, vOffset: -50 });
+
+    L2Dwidget.init({
+      model: { jsonPath: "https://flavluc.github.io/live2d/models/koharu/koharu.model.json" },
+      display
+    });
+  </script>
+
+</body>
+
+</html>

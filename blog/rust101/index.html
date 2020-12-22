@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>flávio.</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;print.css" media="print">
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;poole.css">
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;hyde.css">
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;base.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400italic,700|Libre+Baskerville">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+
+  
+  
+</head>
+
+<body class=" ">
+  
+  <div class="sidebar">
+    <div class="container sidebar-sticky">
+      <div><img class="pp" src="https:&#x2F;&#x2F;flavluc.github.io&#x2F;pp.png"></div>
+      <div class="sidebar-about">
+        
+        <a href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;">
+          <h1>flávio.</h1>
+        </a>
+        
+        <p class="lead">Hello! Welcome to my hideout! Take a cup of coffee, put on some music, and have fun &gt;.&lt;</p>
+        
+        
+      </div>
+
+      <ul class="sidebar-nav">
+        
+        
+        <li class="sidebar-nav-item">
+          <a href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;">home</a>
+        </li>
+        
+        <li class="sidebar-nav-item">
+          <a href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;blog">blog</a>
+        </li>
+        
+        <li class="sidebar-nav-item">
+          <a href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;portfolio">portfolio</a>
+        </li>
+        
+        
+      </ul>
+
+      <ul class="sidebar-nav">
+        
+        
+        <li class="sidebar-nav-item sidebar-social-item">
+          <a class="icon fa-stack fa-lg" href="https:&#x2F;&#x2F;github.com&#x2F;flavluc">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+          </a>
+          
+        <li class="sidebar-nav-item sidebar-social-item">
+          <a class="icon fa-stack fa-lg" href="https:&#x2F;&#x2F;twitter.com">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+          </a>
+          
+        <li class="sidebar-nav-item sidebar-social-item">
+          <a class="icon fa-stack fa-lg" href="https:&#x2F;&#x2F;reddit.com">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-reddit fa-stack-1x fa-inverse"></i>
+          </a>
+          
+          
+      </ul>
+    </div>
+  </div>
+  
+
+  <div class="content container">
+
+    
+<div class="post">
+  <h1 class="post-title">An introduction to Rust implementing a functional list</h1>
+  
+  <p class="lead">In this post I&#x27;ll implement a functional linked list using the Rust programming language. The goal of it is to provide an overview and explanatory view of the language, so I won&#x27;t be focusing much in the data structure itself. Anyway, I hope you have some fun reading it =D</p>
+  
+  <span class="post-date">2020-06-27</span>
+  <h2 id="introduction">Introduction</h2>
+<p>Before diving into any Rust code, we need to learn two fundamental concepts that make Rust unique:</p>
+<h3 id="ownership">Ownership:</h3>
+<ul>
+<li>Each value in Rust has a variable that's called its owner.</li>
+<li>There can only be one owner at a time.</li>
+<li>When the owner goes out of scope, the value is dropped.</li>
+</ul>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">let n = String::from(&quot;hello, world&quot;);   // &#39;n&#39; owns the string &#39;hello, world&#39;
+</span><span style="color:#cccece;">let m = n;                              // now &#39;m&#39; owns the string, what about n?
+</span><span style="color:#cccece;">println!(&quot;{}&quot;, m);                      // prints &#39;hello, world&#39;
+</span><span style="color:#cccece;">println!(&quot;{}&quot;, n);                      // **compilation error**
+</span></pre><h3 id="borrowing">Borrowing:</h3>
+<ul>
+<li>At any given time, you can either have one mutable reference or any number of immutable references.</li>
+</ul>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">  let mut a = String::from(&quot;hello, world&quot;);
+</span><span style="color:#cccece;">  let b = &amp;mut a;         // mutable reference to &#39;a&#39;
+</span><span style="color:#cccece;">  let c = &amp;a;             // immutable reference to &#39;a&#39;
+</span><span style="color:#cccece;">  println!(&quot;{}&quot;, c);      // prints &#39;hello, world&#39;
+</span><span style="color:#cccece;">  println!(&quot;{}&quot;, b);      // **compilation error**
+</span></pre>
+<ul>
+<li>References must always be valid (lifetimes).</li>
+</ul>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">  let b;
+</span><span style="color:#cccece;">  {
+</span><span style="color:#cccece;">      let a = String::from(&quot;hello, world&quot;);
+</span><span style="color:#cccece;">      b = &amp;a;         // b is a reference to a
+</span><span style="color:#cccece;">  }                   // a dies here, so b is invalid
+</span><span style="color:#cccece;">  println!(&quot;{}&quot;, b);  // **compilation error**
+</span></pre><h2 id="hands-on-coding">Hands on coding</h2>
+<p>With this out of our way, we can start writing our List implementation.</p>
+<p>First let's create our project using <code>cargo</code>, Rust's packager manager, with the command:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">cargo init --lib list
+</span></pre>
+<p>This will generate a startup workspace to get the us running. Then open the file <code>src/lib.rs</code> which is the root of our crate (think of <code>crate</code> as a <code>package</code> for now), put in the following code to export our about to be created module:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">// src/lib.rs
+pub mod list;
+</span></pre>
+<p>Now we can create a <code>list.rs</code> file in the <code>src</code> folder and start to write our code.</p>
+<p>Let's first define our <code>Node</code> struct, the semantics of a struct in Rust is pretty similar to C/C++.</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">#[derive(Debug)]      // that&#39;s just a macro attribute that provide us default trait implementation (more on this later)
+pub struct Node&lt;T&gt; {  // we&#39;ll be building a generic list
+  elem: T,
+  next: ??            // what should we put here?
+}
+</span></pre>
+<p>Well, let's try to follow our first-glance intuition and write something like this:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">#[derive(Debug)]      
+pub struct Node&lt;T&gt; {
+  elem: T,
+  next: Node&lt;T&gt;
+}
+</span></pre>
+<p>When compiling we get:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">error[E0072]: recursive type `Node` has infinite size
+  --&gt; src/main.rs:8:1
+   |
+8  | pub struct Node&lt;T&gt; {
+   | ^^^^^^^^^^^^^^^^^^ recursive type has infinite size
+9  |     elem: T,
+10 |     next: Node&lt;T&gt;,
+   |     ------------- recursive without indirection
+   |
+   = help: insert indirection (e.g., a `Box`, `Rc`, or `&amp;`) at some point to make `Node` representable
+</span></pre>
+<p>It looks like we can't have a recursive definition of <code>Node</code>, that because the compiler must know the size of the struct to allocate the amount of memory needed for it. How to solve it?</p>
+<h2 id="references-lifetimes-and-box">References, Lifetimes and Box</h2>
+<p>The compiler have already told us how! We need indirection. If we use a pointer-like value in the <code>next</code> field of our struct the compiler will know exactly the amount of memory needed because pointers have a fixed size. So let's hurry up and put a reference in there:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">#[derive(Debug)]      
+pub struct Node&lt;T&gt; {
+  elem: T,
+  next: &amp;Node&lt;T&gt;      // &#39;&amp;&#39; is the syntax for an immutable reference
+}
+</span></pre>
+<p>If we run we get:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">error[E0106]: missing lifetime specifier
+  --&gt; src/main.rs:10:11
+   |
+10 |     next: &amp;Node&lt;T&gt;,
+   |           ^ expected named lifetime parameter
+   |
+help: consider introducing a named lifetime parameter
+   |
+8  | pub struct Node&lt;&#39;a, T&gt; {
+9  |     elem: T,
+10 |     next: &amp;&#39;a Node&lt;T&gt;,
+   |
+</span></pre>
+<p>Ok now there's this new concept called <code>lifetime parameter</code>, let's see what it is.</p>
+<p>Remember in the &quot;Borrowing&quot; session when we said that &quot;references must always be valid&quot;, well that's accomplished by lifetime parameters. Most of the time the Rust compiler will infer the lifetime parameters (check out the 'Lifetime Elision' session in the <a href="https://doc.rust-lang.org/nomicon/lifetime-elision.html">Rust Book</a>), however there are some special cases when we need to explicitly tell it about them. Here's how we do it:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">// implicit
+fn foo(x: &amp;i32) {
+}
+
+// explicit
+fn bar&lt;&#39;a&gt;(x: &amp;&#39;a i32) {  // &#39;a&#39; is just a name for the parameter
+}
+</span></pre>
+<p>In our case, it happens because, thus far, Rust has preferred to err on the side of explicitness, modulo a few areas that were deemed an ergonomic hit without some implicitness. There’s been some talk about eliding lifetimes in more places (check <a href="https://internals.rust-lang.org/t/lang-team-minutes-elision-2-0/5182">this</a> out).</p>
+<p>Then, following the compiler suggestion, let's change our code to:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">#[derive(Debug)]
+pub struct Node&lt;&#39;a, T&gt; {    // that&#39;s the syntax to declare a lifetime parameter for a struct
+  elem: T,
+  next: &amp;&#39;a Node&lt;&#39;a, T&gt;,  // we say that if the &#39;next&#39; field lives &#39;a&#39; then our struct must live at least &#39;a&#39;
+}
+</span></pre>
+<p>The code compiles! Great! However, we can make it better. Sometimes things can get too complicated with references and lifetime parameters, a better solution would be using the heap, the simplest way to do this in Rust is with the <code>Box</code> pointer. From the Rust official documentation:</p>
+<p><em>&quot;Box<T>, casually referred to as a 'box', provides the simplest form of heap allocation in Rust. Boxes provide ownership for this allocation, and drop their contents when they go out of scope.&quot;</em></p>
+<p>So let's use it:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">#[derive(Debug)]
+pub struct Node&lt;T&gt; {
+  elem: T,
+  next: Box&lt;Node&lt;T&gt;&gt;,
+}
+</span></pre>
+<p>Done! We now say that our <code>Node</code> is a recursively defined struct, but with a fixed size. There's just one problem with that: how do we know when we have reached the end or our list? Rust doesn't have a <code>NULL</code> pointer as we would use in C/C++, but it has something way more sophisticated, the <code>Option</code> enum. It is defined as:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">pub enum Option&lt;T&gt; {
+  None,
+  Some(T),
+}
+</span></pre>
+<p>In Rust, enums represent one of many possible variants. Many languages support an enum syntax that works like this. Rust lets us go a bit further and add data associated with each of the variants. In our example, we have a generic enum, which means that for some type T, our enum may be a <code>None</code> variant or a <code>Some</code> variant carrying a value of type <code>T</code>.</p>
+<p>With data added to variants, this style of enum takes on many of the properties of union types in other languages. The combination of enum and union-like behavior is why this sort of type is often referred to as a “tagged union”. In type theory, it’s referred to as a sum type, and is one of many algebraic types such as product types and quotient types.</p>
+<p>Let's use this new type in our <code>Node</code> struct:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">#[derive(Debug)]
+pub struct Node&lt;T&gt; {
+  elem: T,
+  next: Box&lt;Option&lt;Node&lt;T&gt;&gt;&gt;,
+}
+</span></pre>
+<p>Cool huh? We just added the following semantics to our code: if the <code>next</code> field is the enum variant <code>None</code> then we've reached the end of our list.</p>
+<p>This whole <code>Box&lt;Option&lt;Node&lt;T&gt;&gt;&gt;</code> is a little annoying to look at though, there's something called <code>type</code> aliases in Rust, we can use just as we would in our bash terminal.</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">type Link&lt;T&gt; = Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt;;
+
+#[derive(Debug)]
+pub struct Node&lt;T&gt; {
+  elem: T,
+  next: Link&lt;T&gt;,
+}
+</span></pre>
+<p>Perfect!</p>
+<h2 id="creating-an-api">Creating an API</h2>
+<p>Now that we have our basic structure to work with recursive lists we can add some behavior to it.</p>
+<p>What about we creating our <code>List</code> struct now? As we're building a simple linked list we can simply define our list as:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">pub struct List&lt;T&gt; {
+  head: Link&lt;T&gt;,
+}
+</span></pre>
+<p>Let's define some basic operations:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">impl&lt;T&gt; List&lt;T&gt; {
+  pub fn new() -&gt; Self {}
+  pub fn push(&amp;mut self, elem: T) {}
+  pub fn peek(&amp;self) -&gt; Option&lt;&amp;T&gt; {}
+  pub fn pop(&amp;mut self) -&gt; Option&lt;T&gt; {}
+}
+</span></pre>
+<p>Ok, that's a lot of new code, let's understand each of these lines.</p>
+<ul>
+<li>
+<p><code>impl&lt;T&gt; List&lt;T&gt;</code>: the <code>impl</code> keyword is used to define implementation on types, here we are using a generic implementation <code>impl&lt;T&gt;</code> for a generic <code>List&lt;T&gt;</code>.</p>
+</li>
+<li>
+<p><code>pub fn new() -&gt; Self {}</code>: defining a static method (note that it doesn't use the <code>self</code> parameter as the other ones) that returns <code>Self</code> which is the implementing type of our <code>impl</code> block, for example it can be <code>List&lt;i32&gt;</code>, <code>List&lt;String&gt;</code> and so on.</p>
+</li>
+<li>
+<p>I'll assume the other methods are straightforward, the <code>self</code> keyword behaves just as a <code>this</code> pointer in C/C++.</p>
+</li>
+</ul>
+<p>If we try to compile this code it won't work, that because the Rust compiler expect us to return an <code>Option</code> value from the last two methods. So let's write the body of our methods:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">impl&lt;T&gt; List&lt;T&gt; {
+  pub fn new() -&gt; Self {
+    List { head: None } // that&#39;s basically our constructor
+  }
+
+  pub fn push(&amp;mut self, elem: T) {
+    let node = Box::new(Node {
+      elem,
+      next: self.head.take(),   // the `take` method takes the value out of the option, leaving a `None` in its place
+    });
+    self.head = Some(node);
+  }
+
+  pub fn peek(&amp;self) -&gt; Option&lt;&amp;T&gt; {  // what happens if we return the value instead of a reference?
+    self.head.as_ref().map(|node| &amp;node.elem) // the `map` method maps an Option&lt;T&gt; to Option&lt;U&gt; by applying a function to a contained value
+  }
+
+  pub fn pop(&amp;mut self) -&gt; Option&lt;T&gt; {
+    self.head.take().map(|node| {
+      self.head = node.next;
+      node.elem
+    })
+  }
+}
+</span></pre>
+<p>We've finally used Rust closures for the first time. Closures are fundamentally a pointer to code together with a pointer to a table of free variables, it allows us to treat functions as first-class citizens. In Rust we can define them by the simple syntax <code>| vars | { code }</code> or we can optionally omit the enclosing curly brackets for a single expression <code>| vars | expr</code>.</p>
+<h2 id="testing">Testing</h2>
+<p>OK, so our basic implementation is supposed to work. But how do we test it?</p>
+<p>Rust let us write testing functions, unit tests go into a tests mod with the <code>#[cfg(test)]</code> attribute. Test functions are marked with the <code>#[test]</code> attribute. Let's write some:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">#[cfg(test)]
+mod test {
+  use super::List;
+
+  #[test]
+  fn basics() {
+    let mut list = List::new();
+
+    // Check empty list behaves right
+    assert_eq!(list.pop(), None);
+
+    // Populate list
+    list.push(1);
+    list.push(2);
+    list.push(3);
+
+    // Check normal removal
+    assert_eq!(list.pop(), Some(3));
+    assert_eq!(list.pop(), Some(2));
+
+    // Push some more just to make sure nothing&#39;s corrupted
+    list.push(4);
+    list.push(5);
+
+    // Check normal removal
+    assert_eq!(list.pop(), Some(5));
+    assert_eq!(list.pop(), Some(4));
+
+    // Check exhaustion
+    assert_eq!(list.pop(), Some(1));
+    assert_eq!(list.pop(), None);
+  }
+}
+</span></pre>
+<p>Here everything is pretty straightforward right? There's just this <code>assert_eq!</code> we still didn't talk about, but think about it as a function that takes two parameters and checks if they're equal;</p>
+<h2 id="cleaning-memory-and-traits">Cleaning memory and Traits</h2>
+<p>Do we need to worry about cleaning up our list? Well, no, the Rust ownership system handles it to us automatically. However, we may have some problems if we just let the Rust compiler to handle it.</p>
+<p>The problem here is with our recursive definition. When dropping the <code>Box</code> pointer, first we need to drop it's content (which is recursive) and then deallocating the pointer itself, because of that, we can't have a tail recursive optimization and, therefore, we might blow the stack for really big lists.</p>
+<p>To work around it we have to implement an iterative &quot;destructor&quot; for our data structure. This can be accomplished by the <code>Drop</code> trait available in the <code>std</code>.</p>
+<p>So what is a trait? For now, think about it as an <code>interface</code> in Java or C++ (or if you're a Haskeller we can trace a better comparison with <code>type classes</code>). This is how we implement a trait for our list:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">impl&lt;T&gt; Drop for List&lt;T&gt; {
+  fn drop(&amp;mut self) {
+    let mut cur_link = self.head.take();
+    while let Some(mut boxed_node) = cur_link {
+      cur_link = boxed_node.next.take();
+      // boxed_node goes out of scope and gets dropped here;
+    }
+  }
+}
+</span></pre><h2 id="shared-ownership-and-an-immutable-list">Shared Ownership and an Immutable List</h2>
+<p>What if we want our list to be immutable? Like those used in functional language like Haskell or ML.</p>
+<p>Let's look at a simple example:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">list1 = A -&gt; B -&gt; C -&gt; D
+list2 = tail(list1) = B -&gt; C -&gt; D
+list3 = push(list2, X) = X -&gt; B -&gt; C -&gt; D
+</span></pre>
+<p>In this case, the memory should look like this:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">list1 -&gt; A ---+
+              |
+              v
+list2 ------&gt; B -&gt; C -&gt; D
+              ^
+              |
+list3 -&gt; X ---+
+</span></pre>
+<p>This won't work with <code>Box</code> pointers anymore, in this case the ownership of B is shared. A basic implementation of shared ownership in Rust is done by reference counting, in other words, using the <code>Rc</code> pointer.</p>
+<p>First of all let's rewrite our interface as the methods <code>push</code> and <code>pop</code> doesn't make much sense now.</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">impl&lt;T&gt; List&lt;T&gt; {
+  pub fn new() -&gt; Self {}
+}
+pub fn head(list: &amp;List&lt;T&gt;) -&gt; Option&lt;&amp;T&gt; {}
+pub fn tail(list: &amp;List&lt;T&gt;) -&gt; List&lt;T&gt; {}
+pub fn cons(list: &amp;List&lt;T&gt;, elem: T) -&gt; List&lt;T&gt; {}
+</span></pre>
+<p>Note that we've given up on using <code>self</code> because we'll get a functional style composing these defined functions. Now let's introduce our <code>Rc</code> pointer in our <code>Link</code> type:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">use std::rc::Rc;
+
+type Link&lt;T&gt; = Option&lt;Rc&lt;Node&lt;T&gt;&gt;&gt;;
+</span></pre>
+<p>The semantics of the pointer is pretty simple, it keeps an internal counter and every time we call <code>.clone()</code> it increases the pointer by one. When the counter gets to 0 the value is dropped.</p>
+<p>Let's implement our methods:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">impl&lt;T&gt; List&lt;T&gt; {
+  pub fn new() -&gt; Self {
+    List { head: None }
+  }
+}
+
+pub fn head&lt;T&gt;(list: &amp;List&lt;T&gt;) -&gt; Option&lt;&amp;T&gt; {
+  list.head.as_ref().map(|node| &amp;node.elem)
+}
+
+pub fn tail&lt;T&gt;(list: &amp;List&lt;T&gt;) -&gt; List&lt;T&gt; {
+  List {
+    head: list.head.as_ref().and_then(|node| node.next.clone()),
+  }
+}
+
+pub fn cons&lt;T&gt;(list: &amp;List&lt;T&gt;, elem: T) -&gt; List&lt;T&gt; {
+  List {
+    head: Some(Rc::new(Node {
+      elem,
+      next: list.head.clone(),
+    })),
+  }
+}
+</span></pre>
+<p>The code is, again, straightforward, so I'll leave you to read it by yourself.</p>
+<p>Now let's test it!</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">#[cfg(test)]
+mod test {
+  use super::*;
+
+  #[test]
+  fn basics() {
+    let list: List&lt;i32&gt; = List::new();
+    assert_eq!(head(&amp;list), None);
+
+    let list = cons(&amp;cons(&amp;cons(&amp;List::new(), 1), 2), 3);
+    assert_eq!(head(&amp;list), Some(&amp;3));
+
+    let list = tail(&amp;list);
+    assert_eq!(head(&amp;list), Some(&amp;2));
+
+    let list = tail(&amp;list);
+    assert_eq!(head(&amp;list), Some(&amp;1));
+
+    let list = tail(&amp;list);
+    assert_eq!(head(&amp;list), None);
+  }
+}
+
+</span></pre>
+<p>Last we have to define our iterative drop:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">impl&lt;T&gt; Drop for List&lt;T&gt; {
+  fn drop(&amp;mut self) {
+    let mut head = self.head.take();
+    while let Some(node) = head {
+      // unwraps if it&#39;s unique
+      match Rc::try_unwrap(node) {
+        Ok(mut node) =&gt; {
+          head = node.next.take();
+        }
+        Err(_) =&gt; {
+          break;
+        }
+      }
+    }
+  }
+}
+</span></pre>
+<p>The only unknown operator here is the <code>match</code>, it's used in Rust to simulate patter matching just like in functional languages.</p>
+<h2 id="iterator-and-append">Iterator and Append</h2>
+<p>To finish the tutorial, let's implement two more cool functionalities to our list. </p>
+<p>An iterator is a pattern that abstract the logic of transversing in a container, particularly lists. In Rust std library we have a <code>Iterator</code> trait that helps us implementing the patter, let's take a look.</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">pub trait Iterator {
+  type Item;
+  fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt;;
+}
+</span></pre>
+<p>The new kid on the block here is <code>type Item</code>. This is declaring that every implementation of Iterator has an associated type called Item. In this case, this is the type that it can spit out when you call <code>next</code>. Here it goes our implementation:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">pub struct Iter&lt;&#39;a, T&gt; {
+  next: Option&lt;&amp;&#39;a Node&lt;T&gt;&gt;,
+}
+
+impl&lt;&#39;a, T&gt; Iterator for Iter&lt;&#39;a, T&gt; {
+  type Item = &amp;&#39;a T;
+
+  fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+    self.next.map(|node| {
+      self.next = node.next.as_ref().map(|node| &amp;**node);
+      &amp;node.elem
+    })
+  }
+}
+</span></pre>
+<p>And here are some tests:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">#[test]
+fn iter_t() {
+  let list = cons(&amp;cons(&amp;cons(&amp;List::new(), 1), 2), 3);
+
+  let mut iter = iter(&amp;list);
+  assert_eq!(iter.next(), Some(&amp;3));
+  assert_eq!(iter.next(), Some(&amp;2));
+  assert_eq!(iter.next(), Some(&amp;1));
+}
+</span></pre>
+<p>Now let's build our last piece of the puzzle, the append function. Its semantics is supposed to be quite simple, given two <code>List&lt;T&gt;</code> return a new <code>List&lt;T&gt;</code> which is the result of appending the final of the first list to the beginning of the second. Let's code it:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">pub fn append&lt;T&gt;(l1: &amp;List&lt;T&gt;, l2: &amp;List&lt;T&gt;) -&gt; List&lt;T&gt;
+where
+  T: Clone,
+{
+  match head(l1) {
+    None =&gt; List {
+      head: l2.head.clone(),
+    },
+    Some(e) =&gt; {
+      let mut l = tail(&amp;l1);
+      l = append(&amp;l, l2);
+      cons(&amp;l, e.clone())
+    }
+  }
+}
+</span></pre>
+<p>You should be able to understand the whole code by now, except for the <code>ẁhere</code> clause. What it does is basically set a trait bound to the generic parameter <code>T</code>, which means that every possible <code>T</code> must implement a trait called <code>Clone</code>, in fact, we need to clone some elements in order to append the two lists. If you know Haskell, it's as simple as defining a type class bound, for example: <code>Clone a =&gt; List a -&gt; List a -&gt; List a</code>.</p>
+<p>That's how we test this new function:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">#[test]
+fn append_t() {
+  let l1 = cons(&amp;cons(&amp;List::new(), 1), 2);
+  let l2 = cons(&amp;cons(&amp;List::new(), 5), 6);
+  let list = append(&amp;l1, &amp;l2);
+
+  let mut iter = iter(&amp;list);
+  assert_eq!(iter.next(), Some(&amp;2));
+  assert_eq!(iter.next(), Some(&amp;1));
+  assert_eq!(iter.next(), Some(&amp;6));
+  assert_eq!(iter.next(), Some(&amp;5));
+}
+</span></pre>
+<p>And that's it !!! You did build a functional linked list using an imperative (multi paradigm) language!!! If you've read this until the end, I hope you have enjoyed it. See you in the next post if you're sticking around.</p>
+<p>Here's the full code for reference:</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">use std::rc::Rc;
+
+type Link&lt;T&gt; = Option&lt;Rc&lt;Node&lt;T&gt;&gt;&gt;;
+
+#[derive(Debug)]
+pub struct List&lt;T&gt; {
+  head: Link&lt;T&gt;,
+}
+
+#[derive(Debug)]
+struct Node&lt;T&gt; {
+  elem: T,
+  next: Link&lt;T&gt;,
+}
+
+impl&lt;T&gt; List&lt;T&gt; {
+  pub fn new() -&gt; Self {
+    List { head: None }
+  }
+}
+
+pub fn head&lt;T&gt;(list: &amp;List&lt;T&gt;) -&gt; Option&lt;&amp;T&gt; {
+  list.head.as_ref().map(|node| &amp;node.elem)
+}
+
+pub fn tail&lt;T&gt;(list: &amp;List&lt;T&gt;) -&gt; List&lt;T&gt; {
+  List {
+    head: list.head.as_ref().and_then(|node| node.next.clone()),
+  }
+}
+
+pub fn cons&lt;T&gt;(list: &amp;List&lt;T&gt;, elem: T) -&gt; List&lt;T&gt; {
+  List {
+    head: Some(Rc::new(Node {
+      elem,
+      next: list.head.clone(),
+    })),
+  }
+}
+
+pub fn append&lt;T&gt;(l1: &amp;List&lt;T&gt;, l2: &amp;List&lt;T&gt;) -&gt; List&lt;T&gt;
+where
+  T: Clone,
+{
+  match head(l1) {
+    None =&gt; List {
+      head: l2.head.clone(),
+    },
+    Some(e) =&gt; {
+      let mut l = tail(&amp;l1);
+      l = append(&amp;l, l2);
+      cons(&amp;l, e.clone())
+    }
+  }
+}
+
+pub fn iter&lt;T&gt;(list: &amp;List&lt;T&gt;) -&gt; Iter&lt;T&gt; {
+  Iter {
+    next: list.head.as_ref().map(|node| &amp;**node),
+  }
+}
+
+impl&lt;T&gt; Drop for List&lt;T&gt; {
+  fn drop(&amp;mut self) {
+    let mut head = self.head.take();
+    while let Some(node) = head {
+      match Rc::try_unwrap(node) {
+        // unwraps if it&#39;s unique
+        Ok(mut node) =&gt; {
+          head = node.next.take();
+        }
+        Err(_) =&gt; {
+          break;
+        }
+      }
+    }
+  }
+}
+
+pub struct Iter&lt;&#39;a, T&gt; {
+  next: Option&lt;&amp;&#39;a Node&lt;T&gt;&gt;,
+}
+
+impl&lt;&#39;a, T&gt; Iterator for Iter&lt;&#39;a, T&gt; {
+  type Item = &amp;&#39;a T;
+
+  fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+    self.next.map(|node| {
+      self.next = node.next.as_ref().map(|node| &amp;**node);
+      &amp;node.elem
+    })
+  }
+}
+
+#[cfg(test)]
+mod test {
+  use super::*;
+
+  #[test]
+  fn basics() {
+    let list: List&lt;i32&gt; = List::new();
+    assert_eq!(head(&amp;list), None);
+
+    let list = cons(&amp;cons(&amp;cons(&amp;List::new(), 1), 2), 3);
+    assert_eq!(head(&amp;list), Some(&amp;3));
+
+    let list = tail(&amp;list);
+    assert_eq!(head(&amp;list), Some(&amp;2));
+
+    let list = tail(&amp;list);
+    assert_eq!(head(&amp;list), Some(&amp;1));
+
+    let list = tail(&amp;list);
+    assert_eq!(head(&amp;list), None);
+  }
+
+  #[test]
+  fn iter_t() {
+    let list = cons(&amp;cons(&amp;cons(&amp;List::new(), 1), 2), 3);
+
+    let mut iter = iter(&amp;list);
+    assert_eq!(iter.next(), Some(&amp;3));
+    assert_eq!(iter.next(), Some(&amp;2));
+    assert_eq!(iter.next(), Some(&amp;1));
+  }
+
+  #[test]
+  fn append_t() {
+    let l1 = cons(&amp;cons(&amp;List::new(), 1), 2);
+    let l2 = cons(&amp;cons(&amp;List::new(), 5), 6);
+    let list = append(&amp;l1, &amp;l2);
+
+    let mut iter = iter(&amp;list);
+    assert_eq!(iter.next(), Some(&amp;2));
+    assert_eq!(iter.next(), Some(&amp;1));
+    assert_eq!(iter.next(), Some(&amp;6));
+    assert_eq!(iter.next(), Some(&amp;5));
+  }
+}
+
+</span></pre>
+</div>
+
+  </div>
+
+  <script src="https://flavluc.github.io/live2d/L2Dwidget.min.js"></script>
+
+  <script type="text/javascript">
+
+    const display = window.matchMedia("(max-width: 768px)").matches ?
+      // window width is at less than 768px
+      ({ width: 120, height: 250, vOffset: -60 }) :
+      // window width is greater than 768px
+      ({ width: 160, height: 310, vOffset: -50 });
+
+    L2Dwidget.init({
+      model: { jsonPath: "https://flavluc.github.io/live2d/models/koharu/koharu.model.json" },
+      display
+    });
+  </script>
+
+</body>
+
+</html>

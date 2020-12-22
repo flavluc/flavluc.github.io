@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>flávio.</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;print.css" media="print">
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;poole.css">
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;hyde.css">
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;base.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400italic,700|Libre+Baskerville">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+
+  
+  
+</head>
+
+<body class=" ">
+  
+  <div class="sidebar">
+    <div class="container sidebar-sticky">
+      <div><img class="pp" src="https:&#x2F;&#x2F;flavluc.github.io&#x2F;pp.png"></div>
+      <div class="sidebar-about">
+        
+        <a href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;">
+          <h1>flávio.</h1>
+        </a>
+        
+        <p class="lead">Hello! Welcome to my hideout! Take a cup of coffee, put on some music, and have fun &gt;.&lt;</p>
+        
+        
+      </div>
+
+      <ul class="sidebar-nav">
+        
+        
+        <li class="sidebar-nav-item">
+          <a href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;">home</a>
+        </li>
+        
+        <li class="sidebar-nav-item">
+          <a href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;blog">blog</a>
+        </li>
+        
+        <li class="sidebar-nav-item">
+          <a href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;portfolio">portfolio</a>
+        </li>
+        
+        
+      </ul>
+
+      <ul class="sidebar-nav">
+        
+        
+        <li class="sidebar-nav-item sidebar-social-item">
+          <a class="icon fa-stack fa-lg" href="https:&#x2F;&#x2F;github.com&#x2F;flavluc">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+          </a>
+          
+        <li class="sidebar-nav-item sidebar-social-item">
+          <a class="icon fa-stack fa-lg" href="https:&#x2F;&#x2F;twitter.com">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+          </a>
+          
+        <li class="sidebar-nav-item sidebar-social-item">
+          <a class="icon fa-stack fa-lg" href="https:&#x2F;&#x2F;reddit.com">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-reddit fa-stack-1x fa-inverse"></i>
+          </a>
+          
+          
+      </ul>
+    </div>
+  </div>
+  
+
+  <div class="content container">
+
+    
+<div class="post">
+  <h1 class="post-title">An arithmetic expressions evaluator with Kotlin and ANTLR4</h1>
+  
+  <p class="lead">I&#x27;ve recently been working with Kotlin and ANTLR4 in my IC project and one of the tasks I had to do is writing a parser using these two technologies. I didn&#x27;t found much information online besides the ANTLR book and documentation. So, after reading them, I decided to make a short tutorial to make things easier for me and my colleagues.</p>
+  
+  <span class="post-date">2020-07-07</span>
+  <p>In this post I'll be showing how to write a arithmetic expression evaluator using ANTLR4 as a parser generator and a visitor interface written in Kotlin to walk on the generated tree. I didn't use any build tool for this tutorial because it was supposed to be quite simple, but I intend to improve it later and show how things can be done using <a href="https://gradle.org/">gradle</a>.</p>
+<h2 id="1-install-kotlin">1 - Install Kotlin</h2>
+<p>Follow the instructions at the <a href="https://kotlinlang.org/docs/tutorials/command-line.html">Kotlin installation guide</a>.</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">$ java -version
+openjdk version &quot;11.0.6&quot; 2020-01-14
+OpenJDK Runtime Environment (build 11.0.6+10)
+OpenJDK 64-Bit Server VM (build 11.0.6+10, mixed mode)
+
+$ kotlin -version
+Kotlin version 1.3.72-release-468 (JRE 11.0.6+10)
+
+$ kotlinc -version
+info: kotlinc-jvm 1.3.72 (JRE 11.0.6+10)
+</span></pre><h2 id="2-install-antlr4">2 - Install ANTLR4</h2>
+<p>Follow the instructions at the <a href="https://www.antlr.org">ANTLR website</a>.</p>
+<p>By now you should have the <code>antlr4</code> alias configured as described.</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">$ antlr4
+ANTLR Parser Generator  Version 4.8
+...
+</span></pre><h2 id="3-set-up-a-grammar-file">3 - Set up a grammar file</h2>
+<p>After setting up our environment we need to write a grammar for our parser.</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">/** ./Expr.g4 */
+
+/** Grammars always start with a grammar header (which must have the same name of the file). */
+grammar Expr;
+
+/** A rule called `prog` which will be our entry point
+ *  This rule means that a program is a sequence of one or more `stat`s 
+ */
+prog:   stat+ ;
+
+/** A `stat` rule may be each of the four alternatives (represented by `|`)
+ *  The `#` in front of each alternative is a label, we need it so ANTLR generates a visitor function for each alternative (else it would generate one for the whole rule)
+ */
+stat:   ID &#39;=&#39; expr NEWLINE         # assign
+    |   CLEAR NEWLINE               # clear
+    |   expr NEWLINE                # printExpr
+    |   NEWLINE                     # blank
+    ;
+
+/** The `expr` rule to recognize arithmetic expressions */
+expr:   expr op=(&#39;*&#39;|&#39;/&#39;) expr      # MulDiv
+    |   expr op=(&#39;+&#39;|&#39;-&#39;) expr      # AddSub
+    |   INT                         # int
+    |   ID                          # id
+    |   &#39;(&#39; expr &#39;)&#39;                # parens
+    ;
+
+/** We also need to define some token names for the operator literals.
+ *  That way we can reference token names as Java/Kotlin constants in the visitor.
+ *  The same applies for the `op=` in the `expr` rule
+ */
+MUL :   &#39;*&#39; ;            // assigns token name to &#39;*&#39; used above in grammar
+DIV :   &#39;/&#39; ;
+ADD :   &#39;+&#39; ;
+SUB :   &#39;-&#39; ;
+CLEAR:  &#39;clear&#39; ;        // match clear keyword
+ID  :   [a-zA-Z]+ ;      // match identifiers
+INT :   [0-9]+ ;         // match integers
+NEWLINE:&#39;\r&#39;? &#39;\n&#39; ;     // return newlines to parser (is end-statement signal)
+WS  :   [ \t]+ -&gt; skip ; // toss out whitespace
+</span></pre><h2 id="4-tree-walker">4 - Tree walker</h2>
+<p>By using ANTLR we have basically three easy ways of interacting with the parsing tree generated by the parser:</p>
+<ul>
+<li>
+<p>Listeners</p>
+<ul>
+<li>ANTLR generates a Listener interface</li>
+<li>Can create listener functions for each grammar rule</li>
+<li>There's no need explicitly walk down the tree (ANTLR does it automatically)</li>
+</ul>
+</li>
+<li>
+<p>Visitors:</p>
+<ul>
+<li>ANTLR generates an interface for the well-known Visitor pattern</li>
+<li>Can create visitor functions for each grammar rule or alternative</li>
+<li>You have to explicitly walk down the tree by calling <code>visit()</code> on the children nodes</li>
+</ul>
+</li>
+<li>
+<p>Actions and Semantic Predicates</p>
+<ul>
+<li>Can embed arbitrary code within expression grammar.</li>
+<li>Can compute values or print things on-the-fly during the parsing (no need of a parsing tree).</li>
+<li>Influence on how the parser recognizes input phrases.</li>
+<li>Based on runtime information decide which rule to apply.</li>
+</ul>
+</li>
+</ul>
+<p>You can find more information about each of these in the <a href="https://github.com/antlr/antlr4/blob/master/doc/index.md">ANTLR documentation</a>. Here I'll keep with the visitor pattern.</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">// ./eval-visitor.kt
+
+/** ExprBaseVisitor is the base class generated by ANTLR */
+class EvalVisitor() : ExprBaseVisitor&lt;Int&gt;() {
+  var memory: HashMap&lt;String, Int&gt; = HashMap&lt;String, Int&gt;()
+
+/** These are the functions generated by each label as we defined in our grammar.
+ *  Whe only need to override the functions we are interested in.
+ */
+  override fun visitAssign(ctx: ExprParser.AssignContext ): Int {
+      val id = ctx.ID().getText()  
+      val value = visit(ctx.expr())   
+      memory.put(id, value)
+      return value
+  }
+
+  /** expr NEWLINE */
+  override fun visitPrintExpr(ctx: ExprParser.PrintExprContext): Int {
+      val value = visit(ctx.expr()) 
+      println(value)         
+      return 0                          
+  }
+
+  /** INT */
+  override fun visitInt(ctx: ExprParser.IntContext): Int {
+      return ctx.INT().getText().toInt()
+  }
+
+  /** ID */
+  override fun visitId(ctx: ExprParser.IdContext): Int {
+      val id = ctx.ID().getText()
+      val value = memory.get(id)
+
+      return if ( value != null ) { value } else { 0 }
+  }
+
+  /** expr op=(&#39;*&#39;|&#39;/&#39;) expr */
+  override fun visitMulDiv(ctx: ExprParser.MulDivContext): Int {
+      val left = visit(ctx.expr(0))
+      val right = visit(ctx.expr(1)) 
+
+      if ( ctx.op.getType() == ExprParser.MUL ) {
+        return left * right
+      }
+      return left / right 
+  }
+
+  /** expr op=(&#39;+&#39;|&#39;-&#39;) expr */
+  override fun visitAddSub(ctx: ExprParser.AddSubContext): Int {
+      val left = visit(ctx.expr(0))  
+      val right = visit(ctx.expr(1)) 
+
+      if ( ctx.op.getType() == ExprParser.ADD ) {
+        return left + right
+      }
+      return left - right 
+  }
+
+  /** &#39;(&#39; expr &#39;)&#39; */
+  override fun visitParens(ctx: ExprParser.ParensContext): Int {
+      return visit(ctx.expr()) 
+  }
+
+  /** &#39;clear&#39; */
+  override fun visitClear(ctx: ExprParser.ClearContext): Int {
+      memory.clear()
+      return 0
+  }
+}
+</span></pre><h2 id="5-testing">5 - Testing</h2>
+<p>ANTLR comes with a testing tool in the runtime library called TestRig. If you've followed the installation guide you have a <code>grun</code> alias to run and play with.</p>
+<p>However, we'll write a simple kotlin application to invoke our parser and call our newly created visitor to execute the arithmetic expressions.</p>
+<p>The code is pretty straightforward so I didn't put any comments. Basically we're just creating an <code>InputStream</code> from a file, if given, or using <code>stdin</code>. Then, this stream will be used to feed our lexer and, consequently, be consumed by our parser.</p>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">// ./calc.kt
+
+package calc
+
+import org.antlr.v4.runtime.*
+import org.antlr.v4.runtime.tree.ParseTree
+
+import java.io.FileInputStream
+import java.io.InputStream
+
+import ExprLexer
+import ExprParser
+import EvalVisitor
+
+fun main(args: Array&lt;String&gt;){
+
+  val inputStream = if (args.size &gt; 0) { FileInputStream(args[0]) } else { System.`in` }
+
+  val input = CharStreams.fromStream(inputStream)
+  val lexer = ExprLexer(input)
+  val tokens = CommonTokenStream(lexer)
+  val parser = ExprParser(tokens)
+  val tree = parser.prog()   //`prog` is the entry point we defined in our grammar
+
+  val eval = EvalVisitor()
+  eval.visit(tree)
+} 
+</span></pre><h2 id="6-running">6 - Running</h2>
+<p>Once we have everything set up, it's quite easy to compile and run our programs. Here's a sequence of commands to achieve it.</p>
+<ul>
+<li>Generate the Lexer, Parser, and the Visitor interface with ANTLR4:</li>
+</ul>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">$ antlr4 -no-listener -visitor Expr.g4
+</span></pre>
+<ul>
+<li>Compile the generated java files:</li>
+</ul>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">$ javac Expr*.java
+</span></pre>
+<ul>
+<li>Compile our visitor and main program with <code>kotlinc</code>:</li>
+</ul>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">$ echo $CLASSPATH
+.:/usr/local/lib/antlr-4.8-complete.jar:
+
+$ kotlinc calc.kt eval-visitor.kt -cp $CLASSPATH
+</span></pre>
+<ul>
+<li>For the sake of testing I wrote a small input file (<code>test.expr</code>) so we can pass to our program.</li>
+</ul>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">193
+a = 5
+b = 6
+a+b*2
+clear
+a+b
+</span></pre>
+<ul>
+<li>Run the main program with <code>kotlin</code>:</li>
+</ul>
+<pre style="background-color:#2b2c2f;">
+<span style="color:#cccece;">$ kotlin -cp $CLASSPATH calc.CalcKt test.expr
+193
+17
+0
+</span></pre>
+<p>The first line is just a print expression. The second one is an evaluation of the expression <code>a+b*2</code> with the previously defined identifiers. And the last is trying to evaluate <code>a+b</code> after cleaning the memory, which obviously is wrong as the identifiers are no more defined. For simplicity's sake we just evaluated it to a default value <code>0</code> (this behavior can be changed in our visitor).</p>
+<h2 id="7-conclusion">7 - Conclusion</h2>
+<p>So that's it! Now we have a working (and simple) Arithmetic Expressions Evaluator.</p>
+<p>Most of the information presented here is from <a href="https://www.amazon.com/dp/1934356999/ref=cm_sw_su_dp">The Definitive ANTLR 4 Reference</a> with some adaptions for the Kotlin language. It's a really good book and you're more than encouraged to read it.</p>
+<p>There are plenty of information in the <a href="https://github.com/antlr/antlr4/blob/master/doc/index.md">Official Documentation</a> as well, so fell free to use both.</p>
+<p>Finally, it's probably worth mentioning that you may find the all of the code used in this tutorial in my <a href="https://github.com/flavluc/kotlin-antlr">github repository</a>.</p>
+<p>Hope you've enjoyed xD</p>
+
+</div>
+
+  </div>
+
+  <script src="https://flavluc.github.io/live2d/L2Dwidget.min.js"></script>
+
+  <script type="text/javascript">
+
+    const display = window.matchMedia("(max-width: 768px)").matches ?
+      // window width is at less than 768px
+      ({ width: 120, height: 250, vOffset: -60 }) :
+      // window width is greater than 768px
+      ({ width: 160, height: 310, vOffset: -50 });
+
+    L2Dwidget.init({
+      model: { jsonPath: "https://flavluc.github.io/live2d/models/koharu/koharu.model.json" },
+      display
+    });
+  </script>
+
+</body>
+
+</html>
