@@ -40,3 +40,4 @@ hyde_social = [
     {url = "https://twitter.com", name = "Twitter", icon = "fa-twitter"},
     {url = "https://reddit.com", name = "Reddit", icon = "fa-reddit"},
 ]
+
