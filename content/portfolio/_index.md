@@ -72,3 +72,38 @@ template = "home.html"
     </ul>
   </div>
 </div>
+
+<h3 class="post-subtitle">
+    Languages
+</h3>
+
+<div class="posts">
+  <div class="post">
+    <ul>
+      <li>
+        <bold>🇧🇷 Portuguese:</bold> &nbsp;
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </li>
+      <li>
+        <bold>🇬🇧 English:</bold> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </li>
+      <li>
+        <bold>🇯🇵 Japanese:</bold> &nbsp;&nbsp;&nbsp;
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot dot-gray"></span> 
+        <span class="dot dot-gray"></span> 
+      </li>
+    </ul>
+  </div>
+</div>

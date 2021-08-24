@@ -53,3 +53,16 @@
   color: #303030;
   margin-top: 0;
 }
+
+.dot {
+  height: 13px;
+  width: 13px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: #4f4f4f;
+}
+
+.dot-gray {
+  background-color: #cecece;
+}
