@@ -9,13 +9,29 @@ template = "home.html"
 </h3>
 
 <div class="posts">
+
+  <div class="post">
+    <h3 class="post-title">
+      <small>
+        Compiler Developer - Imagine AI
+      </small>
+    </h3>
+    <span class="post-date">Nov 2020 - Apr 2021</span>
+    <ul>
+      <li>Development of a compiler using Haskell.</li>
+      <li>Experience in using a functional programming language on a real-world project.</li>
+      <li>Implementation of a build infrastructure using Google Cloud Functions.</li>
+      <li>Code generation from an implemented DSL to popular frameworks such as Django and Node.</li>
+  </ul>
+  </div>
+
   <div class="post">
     <h3 class="post-title">
       <small>
         Undergraduate Research - LAC/UFMG
       </small>
     </h3>
-    <span class="post-date">Jan 2020 - Current</span>
+    <span class="post-date">Jan 2020 - Nov 2020</span>
     <ul>
       <li>Research on Termination Analysis using tools available at <a href="https://sv-comp.sosy-lab.org">SV-Comp</a>.</li>
       <li>Development of a domain specific language (<a href="https://github.com/lac-dcc/hapi">Hapi</a>) to define access policies.</li>
@@ -52,7 +68,7 @@ template = "home.html"
     </h3>
     <span class="post-date">Jan 2018 - Dec 2023</span>
     <ul>
-      <li>5º Semester</li>
+      <li>6º Semester</li>
     </ul>
   </div>
 </div>
