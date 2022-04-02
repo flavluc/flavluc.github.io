@@ -1,54 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    
-        <url>
-            <loc>https://flavluc.github.io/</loc>
-            
-        </url>
-    
-        <url>
-            <loc>https://flavluc.github.io/blog/</loc>
-            
-        </url>
-    
-        <url>
-            <loc>https://flavluc.github.io/blog/category-theory/</loc>
-            
-                <lastmod>2020-07-05</lastmod>
-            
-        </url>
-    
-        <url>
-            <loc>https://flavluc.github.io/blog/groundwork-moral/</loc>
-            
-                <lastmod>2020-06-28</lastmod>
-            
-        </url>
-    
-        <url>
-            <loc>https://flavluc.github.io/blog/kotlin-antlr/</loc>
-            
-                <lastmod>2020-07-07</lastmod>
-            
-        </url>
-    
-        <url>
-            <loc>https://flavluc.github.io/blog/rust101/</loc>
-            
-                <lastmod>2020-06-27</lastmod>
-            
-        </url>
-    
-        <url>
-            <loc>https://flavluc.github.io/blog/seven-pl-seven-weeks/</loc>
-            
-                <lastmod>2020-07-07</lastmod>
-            
-        </url>
-    
-        <url>
-            <loc>https://flavluc.github.io/portfolio/</loc>
-            
-        </url>
-    
+    <url>
+        <loc>https://flavluc.github.io/</loc>
+    </url>
+    <url>
+        <loc>https://flavluc.github.io/blog/</loc>
+    </url>
+    <url>
+        <loc>https://flavluc.github.io/blog/category-theory/</loc>
+        <lastmod>2020-07-05</lastmod>
+    </url>
+    <url>
+        <loc>https://flavluc.github.io/blog/groundwork-moral/</loc>
+        <lastmod>2020-06-28</lastmod>
+    </url>
+    <url>
+        <loc>https://flavluc.github.io/blog/kotlin-antlr/</loc>
+        <lastmod>2020-07-07</lastmod>
+    </url>
+    <url>
+        <loc>https://flavluc.github.io/blog/rust101/</loc>
+        <lastmod>2020-06-27</lastmod>
+    </url>
+    <url>
+        <loc>https://flavluc.github.io/blog/seven-pl-seven-weeks/</loc>
+        <lastmod>2020-07-07</lastmod>
+    </url>
+    <url>
+        <loc>https://flavluc.github.io/portfolio/</loc>
+    </url>
 </urlset>

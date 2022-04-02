@@ -11,10 +11,10 @@
   <title>flávio.</title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;print.css" media="print">
-  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;poole.css">
-  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;hyde.css">
-  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;base.css">
+  <link rel="stylesheet" href="https://flavluc.github.io/print.css" media="print">
+  <link rel="stylesheet" href="https://flavluc.github.io/poole.css">
+  <link rel="stylesheet" href="https://flavluc.github.io/hyde.css">
+  <link rel="stylesheet" href="https://flavluc.github.io/base.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400italic,700|Libre+Baskerville">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -28,7 +28,7 @@
   
   <div class="sidebar">
     <div class="container sidebar-sticky">
-      <div><img class="pp" src="https:&#x2F;&#x2F;flavluc.github.io&#x2F;pp.png"></div>
+      <div><img class="pp" src="https://flavluc.github.io/pp.png"></div>
       <div class="sidebar-about">
         
         <a href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;">
@@ -102,64 +102,58 @@
 <li>There can only be one owner at a time.</li>
 <li>When the owner goes out of scope, the value is dropped.</li>
 </ul>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">let n = String::from(&quot;hello, world&quot;);   // &#39;n&#39; owns the string &#39;hello, world&#39;
-</span><span style="color:#cccece;">let m = n;                              // now &#39;m&#39; owns the string, what about n?
-</span><span style="color:#cccece;">println!(&quot;{}&quot;, m);                      // prints &#39;hello, world&#39;
-</span><span style="color:#cccece;">println!(&quot;{}&quot;, n);                      // **compilation error**
-</span></pre><h3 id="borrowing">Borrowing:</h3>
+<pre><code>let n = String::from(&quot;hello, world&quot;);   &#x2F;&#x2F; &#x27;n&#x27; owns the string &#x27;hello, world&#x27;
+let m = n;                              &#x2F;&#x2F; now &#x27;m&#x27; owns the string, what about n?
+println!(&quot;{}&quot;, m);                      &#x2F;&#x2F; prints &#x27;hello, world&#x27;
+println!(&quot;{}&quot;, n);                      &#x2F;&#x2F; **compilation error**
+</code></pre>
+<h3 id="borrowing">Borrowing:</h3>
 <ul>
 <li>At any given time, you can either have one mutable reference or any number of immutable references.</li>
 </ul>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">  let mut a = String::from(&quot;hello, world&quot;);
-</span><span style="color:#cccece;">  let b = &amp;mut a;         // mutable reference to &#39;a&#39;
-</span><span style="color:#cccece;">  let c = &amp;a;             // immutable reference to &#39;a&#39;
-</span><span style="color:#cccece;">  println!(&quot;{}&quot;, c);      // prints &#39;hello, world&#39;
-</span><span style="color:#cccece;">  println!(&quot;{}&quot;, b);      // **compilation error**
-</span></pre>
+<pre><code>  let mut a = String::from(&quot;hello, world&quot;);
+  let b = &amp;mut a;         &#x2F;&#x2F; mutable reference to &#x27;a&#x27;
+  let c = &amp;a;             &#x2F;&#x2F; immutable reference to &#x27;a&#x27;
+  println!(&quot;{}&quot;, c);      &#x2F;&#x2F; prints &#x27;hello, world&#x27;
+  println!(&quot;{}&quot;, b);      &#x2F;&#x2F; **compilation error**
+</code></pre>
 <ul>
 <li>References must always be valid (lifetimes).</li>
 </ul>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">  let b;
-</span><span style="color:#cccece;">  {
-</span><span style="color:#cccece;">      let a = String::from(&quot;hello, world&quot;);
-</span><span style="color:#cccece;">      b = &amp;a;         // b is a reference to a
-</span><span style="color:#cccece;">  }                   // a dies here, so b is invalid
-</span><span style="color:#cccece;">  println!(&quot;{}&quot;, b);  // **compilation error**
-</span></pre><h2 id="hands-on-coding">Hands on coding</h2>
+<pre><code>  let b;
+  {
+      let a = String::from(&quot;hello, world&quot;);
+      b = &amp;a;         &#x2F;&#x2F; b is a reference to a
+  }                   &#x2F;&#x2F; a dies here, so b is invalid
+  println!(&quot;{}&quot;, b);  &#x2F;&#x2F; **compilation error**
+</code></pre>
+<h2 id="hands-on-coding">Hands on coding</h2>
 <p>With this out of our way, we can start writing our List implementation.</p>
 <p>First let's create our project using <code>cargo</code>, Rust's packager manager, with the command:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">cargo init --lib list
-</span></pre>
+<pre><code>cargo init --lib list
+</code></pre>
 <p>This will generate a startup workspace to get the us running. Then open the file <code>src/lib.rs</code> which is the root of our crate (think of <code>crate</code> as a <code>package</code> for now), put in the following code to export our about to be created module:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">// src/lib.rs
+<pre><code>&#x2F;&#x2F; src&#x2F;lib.rs
 pub mod list;
-</span></pre>
+</code></pre>
 <p>Now we can create a <code>list.rs</code> file in the <code>src</code> folder and start to write our code.</p>
 <p>Let's first define our <code>Node</code> struct, the semantics of a struct in Rust is pretty similar to C/C++.</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">#[derive(Debug)]      // that&#39;s just a macro attribute that provide us default trait implementation (more on this later)
-pub struct Node&lt;T&gt; {  // we&#39;ll be building a generic list
+<pre><code>#[derive(Debug)]      &#x2F;&#x2F; that&#x27;s just a macro attribute that provide us default trait implementation (more on this later)
+pub struct Node&lt;T&gt; {  &#x2F;&#x2F; we&#x27;ll be building a generic list
   elem: T,
-  next: ??            // what should we put here?
+  next: ??            &#x2F;&#x2F; what should we put here?
 }
-</span></pre>
+</code></pre>
 <p>Well, let's try to follow our first-glance intuition and write something like this:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">#[derive(Debug)]      
+<pre><code>#[derive(Debug)]      
 pub struct Node&lt;T&gt; {
   elem: T,
   next: Node&lt;T&gt;
 }
-</span></pre>
+</code></pre>
 <p>When compiling we get:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">error[E0072]: recursive type `Node` has infinite size
-  --&gt; src/main.rs:8:1
+<pre><code>error[E0072]: recursive type `Node` has infinite size
+  --&gt; src&#x2F;main.rs:8:1
    |
 8  | pub struct Node&lt;T&gt; {
    | ^^^^^^^^^^^^^^^^^^ recursive type has infinite size
@@ -168,108 +162,98 @@ pub struct Node&lt;T&gt; {
    |     ------------- recursive without indirection
    |
    = help: insert indirection (e.g., a `Box`, `Rc`, or `&amp;`) at some point to make `Node` representable
-</span></pre>
+</code></pre>
 <p>It looks like we can't have a recursive definition of <code>Node</code>, that because the compiler must know the size of the struct to allocate the amount of memory needed for it. How to solve it?</p>
 <h2 id="references-lifetimes-and-box">References, Lifetimes and Box</h2>
 <p>The compiler have already told us how! We need indirection. If we use a pointer-like value in the <code>next</code> field of our struct the compiler will know exactly the amount of memory needed because pointers have a fixed size. So let's hurry up and put a reference in there:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">#[derive(Debug)]      
+<pre><code>#[derive(Debug)]      
 pub struct Node&lt;T&gt; {
   elem: T,
-  next: &amp;Node&lt;T&gt;      // &#39;&amp;&#39; is the syntax for an immutable reference
+  next: &amp;Node&lt;T&gt;      &#x2F;&#x2F; &#x27;&amp;&#x27; is the syntax for an immutable reference
 }
-</span></pre>
+</code></pre>
 <p>If we run we get:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">error[E0106]: missing lifetime specifier
-  --&gt; src/main.rs:10:11
+<pre><code>error[E0106]: missing lifetime specifier
+  --&gt; src&#x2F;main.rs:10:11
    |
 10 |     next: &amp;Node&lt;T&gt;,
    |           ^ expected named lifetime parameter
    |
 help: consider introducing a named lifetime parameter
    |
-8  | pub struct Node&lt;&#39;a, T&gt; {
+8  | pub struct Node&lt;&#x27;a, T&gt; {
 9  |     elem: T,
-10 |     next: &amp;&#39;a Node&lt;T&gt;,
+10 |     next: &amp;&#x27;a Node&lt;T&gt;,
    |
-</span></pre>
+</code></pre>
 <p>Ok now there's this new concept called <code>lifetime parameter</code>, let's see what it is.</p>
 <p>Remember in the &quot;Borrowing&quot; session when we said that &quot;references must always be valid&quot;, well that's accomplished by lifetime parameters. Most of the time the Rust compiler will infer the lifetime parameters (check out the 'Lifetime Elision' session in the <a href="https://doc.rust-lang.org/nomicon/lifetime-elision.html">Rust Book</a>), however there are some special cases when we need to explicitly tell it about them. Here's how we do it:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">// implicit
+<pre><code>&#x2F;&#x2F; implicit
 fn foo(x: &amp;i32) {
 }
 
-// explicit
-fn bar&lt;&#39;a&gt;(x: &amp;&#39;a i32) {  // &#39;a&#39; is just a name for the parameter
+&#x2F;&#x2F; explicit
+fn bar&lt;&#x27;a&gt;(x: &amp;&#x27;a i32) {  &#x2F;&#x2F; &#x27;a&#x27; is just a name for the parameter
 }
-</span></pre>
+</code></pre>
 <p>In our case, it happens because, thus far, Rust has preferred to err on the side of explicitness, modulo a few areas that were deemed an ergonomic hit without some implicitness. There’s been some talk about eliding lifetimes in more places (check <a href="https://internals.rust-lang.org/t/lang-team-minutes-elision-2-0/5182">this</a> out).</p>
 <p>Then, following the compiler suggestion, let's change our code to:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">#[derive(Debug)]
-pub struct Node&lt;&#39;a, T&gt; {    // that&#39;s the syntax to declare a lifetime parameter for a struct
+<pre><code>#[derive(Debug)]
+pub struct Node&lt;&#x27;a, T&gt; {    &#x2F;&#x2F; that&#x27;s the syntax to declare a lifetime parameter for a struct
   elem: T,
-  next: &amp;&#39;a Node&lt;&#39;a, T&gt;,  // we say that if the &#39;next&#39; field lives &#39;a&#39; then our struct must live at least &#39;a&#39;
+  next: &amp;&#x27;a Node&lt;&#x27;a, T&gt;,  &#x2F;&#x2F; we say that if the &#x27;next&#x27; field lives &#x27;a&#x27; then our struct must live at least &#x27;a&#x27;
 }
-</span></pre>
+</code></pre>
 <p>The code compiles! Great! However, we can make it better. Sometimes things can get too complicated with references and lifetime parameters, a better solution would be using the heap, the simplest way to do this in Rust is with the <code>Box</code> pointer. From the Rust official documentation:</p>
 <p><em>&quot;Box<T>, casually referred to as a 'box', provides the simplest form of heap allocation in Rust. Boxes provide ownership for this allocation, and drop their contents when they go out of scope.&quot;</em></p>
 <p>So let's use it:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">#[derive(Debug)]
+<pre><code>#[derive(Debug)]
 pub struct Node&lt;T&gt; {
   elem: T,
   next: Box&lt;Node&lt;T&gt;&gt;,
 }
-</span></pre>
+</code></pre>
 <p>Done! We now say that our <code>Node</code> is a recursively defined struct, but with a fixed size. There's just one problem with that: how do we know when we have reached the end or our list? Rust doesn't have a <code>NULL</code> pointer as we would use in C/C++, but it has something way more sophisticated, the <code>Option</code> enum. It is defined as:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">pub enum Option&lt;T&gt; {
+<pre><code>pub enum Option&lt;T&gt; {
   None,
   Some(T),
 }
-</span></pre>
+</code></pre>
 <p>In Rust, enums represent one of many possible variants. Many languages support an enum syntax that works like this. Rust lets us go a bit further and add data associated with each of the variants. In our example, we have a generic enum, which means that for some type T, our enum may be a <code>None</code> variant or a <code>Some</code> variant carrying a value of type <code>T</code>.</p>
 <p>With data added to variants, this style of enum takes on many of the properties of union types in other languages. The combination of enum and union-like behavior is why this sort of type is often referred to as a “tagged union”. In type theory, it’s referred to as a sum type, and is one of many algebraic types such as product types and quotient types.</p>
 <p>Let's use this new type in our <code>Node</code> struct:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">#[derive(Debug)]
+<pre><code>#[derive(Debug)]
 pub struct Node&lt;T&gt; {
   elem: T,
   next: Box&lt;Option&lt;Node&lt;T&gt;&gt;&gt;,
 }
-</span></pre>
+</code></pre>
 <p>Cool huh? We just added the following semantics to our code: if the <code>next</code> field is the enum variant <code>None</code> then we've reached the end of our list.</p>
 <p>This whole <code>Box&lt;Option&lt;Node&lt;T&gt;&gt;&gt;</code> is a little annoying to look at though, there's something called <code>type</code> aliases in Rust, we can use just as we would in our bash terminal.</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">type Link&lt;T&gt; = Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt;;
+<pre><code>type Link&lt;T&gt; = Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt;;
 
 #[derive(Debug)]
 pub struct Node&lt;T&gt; {
   elem: T,
   next: Link&lt;T&gt;,
 }
-</span></pre>
+</code></pre>
 <p>Perfect!</p>
 <h2 id="creating-an-api">Creating an API</h2>
 <p>Now that we have our basic structure to work with recursive lists we can add some behavior to it.</p>
 <p>What about we creating our <code>List</code> struct now? As we're building a simple linked list we can simply define our list as:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">pub struct List&lt;T&gt; {
+<pre><code>pub struct List&lt;T&gt; {
   head: Link&lt;T&gt;,
 }
-</span></pre>
+</code></pre>
 <p>Let's define some basic operations:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">impl&lt;T&gt; List&lt;T&gt; {
+<pre><code>impl&lt;T&gt; List&lt;T&gt; {
   pub fn new() -&gt; Self {}
   pub fn push(&amp;mut self, elem: T) {}
   pub fn peek(&amp;self) -&gt; Option&lt;&amp;T&gt; {}
   pub fn pop(&amp;mut self) -&gt; Option&lt;T&gt; {}
 }
-</span></pre>
+</code></pre>
 <p>Ok, that's a lot of new code, let's understand each of these lines.</p>
 <ul>
 <li>
@@ -283,22 +267,21 @@ pub struct Node&lt;T&gt; {
 </li>
 </ul>
 <p>If we try to compile this code it won't work, that because the Rust compiler expect us to return an <code>Option</code> value from the last two methods. So let's write the body of our methods:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">impl&lt;T&gt; List&lt;T&gt; {
+<pre><code>impl&lt;T&gt; List&lt;T&gt; {
   pub fn new() -&gt; Self {
-    List { head: None } // that&#39;s basically our constructor
+    List { head: None } &#x2F;&#x2F; that&#x27;s basically our constructor
   }
 
   pub fn push(&amp;mut self, elem: T) {
     let node = Box::new(Node {
       elem,
-      next: self.head.take(),   // the `take` method takes the value out of the option, leaving a `None` in its place
+      next: self.head.take(),   &#x2F;&#x2F; the `take` method takes the value out of the option, leaving a `None` in its place
     });
     self.head = Some(node);
   }
 
-  pub fn peek(&amp;self) -&gt; Option&lt;&amp;T&gt; {  // what happens if we return the value instead of a reference?
-    self.head.as_ref().map(|node| &amp;node.elem) // the `map` method maps an Option&lt;T&gt; to Option&lt;U&gt; by applying a function to a contained value
+  pub fn peek(&amp;self) -&gt; Option&lt;&amp;T&gt; {  &#x2F;&#x2F; what happens if we return the value instead of a reference?
+    self.head.as_ref().map(|node| &amp;node.elem) &#x2F;&#x2F; the `map` method maps an Option&lt;T&gt; to Option&lt;U&gt; by applying a function to a contained value
   }
 
   pub fn pop(&amp;mut self) -&gt; Option&lt;T&gt; {
@@ -308,13 +291,12 @@ pub struct Node&lt;T&gt; {
     })
   }
 }
-</span></pre>
+</code></pre>
 <p>We've finally used Rust closures for the first time. Closures are fundamentally a pointer to code together with a pointer to a table of free variables, it allows us to treat functions as first-class citizens. In Rust we can define them by the simple syntax <code>| vars | { code }</code> or we can optionally omit the enclosing curly brackets for a single expression <code>| vars | expr</code>.</p>
 <h2 id="testing">Testing</h2>
 <p>OK, so our basic implementation is supposed to work. But how do we test it?</p>
 <p>Rust let us write testing functions, unit tests go into a tests mod with the <code>#[cfg(test)]</code> attribute. Test functions are marked with the <code>#[test]</code> attribute. Let's write some:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">#[cfg(test)]
+<pre><code>#[cfg(test)]
 mod test {
   use super::List;
 
@@ -322,86 +304,81 @@ mod test {
   fn basics() {
     let mut list = List::new();
 
-    // Check empty list behaves right
+    &#x2F;&#x2F; Check empty list behaves right
     assert_eq!(list.pop(), None);
 
-    // Populate list
+    &#x2F;&#x2F; Populate list
     list.push(1);
     list.push(2);
     list.push(3);
 
-    // Check normal removal
+    &#x2F;&#x2F; Check normal removal
     assert_eq!(list.pop(), Some(3));
     assert_eq!(list.pop(), Some(2));
 
-    // Push some more just to make sure nothing&#39;s corrupted
+    &#x2F;&#x2F; Push some more just to make sure nothing&#x27;s corrupted
     list.push(4);
     list.push(5);
 
-    // Check normal removal
+    &#x2F;&#x2F; Check normal removal
     assert_eq!(list.pop(), Some(5));
     assert_eq!(list.pop(), Some(4));
 
-    // Check exhaustion
+    &#x2F;&#x2F; Check exhaustion
     assert_eq!(list.pop(), Some(1));
     assert_eq!(list.pop(), None);
   }
 }
-</span></pre>
+</code></pre>
 <p>Here everything is pretty straightforward right? There's just this <code>assert_eq!</code> we still didn't talk about, but think about it as a function that takes two parameters and checks if they're equal;</p>
 <h2 id="cleaning-memory-and-traits">Cleaning memory and Traits</h2>
 <p>Do we need to worry about cleaning up our list? Well, no, the Rust ownership system handles it to us automatically. However, we may have some problems if we just let the Rust compiler to handle it.</p>
 <p>The problem here is with our recursive definition. When dropping the <code>Box</code> pointer, first we need to drop it's content (which is recursive) and then deallocating the pointer itself, because of that, we can't have a tail recursive optimization and, therefore, we might blow the stack for really big lists.</p>
 <p>To work around it we have to implement an iterative &quot;destructor&quot; for our data structure. This can be accomplished by the <code>Drop</code> trait available in the <code>std</code>.</p>
 <p>So what is a trait? For now, think about it as an <code>interface</code> in Java or C++ (or if you're a Haskeller we can trace a better comparison with <code>type classes</code>). This is how we implement a trait for our list:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">impl&lt;T&gt; Drop for List&lt;T&gt; {
+<pre><code>impl&lt;T&gt; Drop for List&lt;T&gt; {
   fn drop(&amp;mut self) {
     let mut cur_link = self.head.take();
     while let Some(mut boxed_node) = cur_link {
       cur_link = boxed_node.next.take();
-      // boxed_node goes out of scope and gets dropped here;
+      &#x2F;&#x2F; boxed_node goes out of scope and gets dropped here;
     }
   }
 }
-</span></pre><h2 id="shared-ownership-and-an-immutable-list">Shared Ownership and an Immutable List</h2>
+</code></pre>
+<h2 id="shared-ownership-and-an-immutable-list">Shared Ownership and an Immutable List</h2>
 <p>What if we want our list to be immutable? Like those used in functional language like Haskell or ML.</p>
 <p>Let's look at a simple example:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">list1 = A -&gt; B -&gt; C -&gt; D
+<pre><code>list1 = A -&gt; B -&gt; C -&gt; D
 list2 = tail(list1) = B -&gt; C -&gt; D
 list3 = push(list2, X) = X -&gt; B -&gt; C -&gt; D
-</span></pre>
+</code></pre>
 <p>In this case, the memory should look like this:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">list1 -&gt; A ---+
+<pre><code>list1 -&gt; A ---+
               |
               v
 list2 ------&gt; B -&gt; C -&gt; D
               ^
               |
 list3 -&gt; X ---+
-</span></pre>
+</code></pre>
 <p>This won't work with <code>Box</code> pointers anymore, in this case the ownership of B is shared. A basic implementation of shared ownership in Rust is done by reference counting, in other words, using the <code>Rc</code> pointer.</p>
 <p>First of all let's rewrite our interface as the methods <code>push</code> and <code>pop</code> doesn't make much sense now.</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">impl&lt;T&gt; List&lt;T&gt; {
+<pre><code>impl&lt;T&gt; List&lt;T&gt; {
   pub fn new() -&gt; Self {}
 }
 pub fn head(list: &amp;List&lt;T&gt;) -&gt; Option&lt;&amp;T&gt; {}
 pub fn tail(list: &amp;List&lt;T&gt;) -&gt; List&lt;T&gt; {}
 pub fn cons(list: &amp;List&lt;T&gt;, elem: T) -&gt; List&lt;T&gt; {}
-</span></pre>
+</code></pre>
 <p>Note that we've given up on using <code>self</code> because we'll get a functional style composing these defined functions. Now let's introduce our <code>Rc</code> pointer in our <code>Link</code> type:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">use std::rc::Rc;
+<pre><code>use std::rc::Rc;
 
 type Link&lt;T&gt; = Option&lt;Rc&lt;Node&lt;T&gt;&gt;&gt;;
-</span></pre>
+</code></pre>
 <p>The semantics of the pointer is pretty simple, it keeps an internal counter and every time we call <code>.clone()</code> it increases the pointer by one. When the counter gets to 0 the value is dropped.</p>
 <p>Let's implement our methods:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">impl&lt;T&gt; List&lt;T&gt; {
+<pre><code>impl&lt;T&gt; List&lt;T&gt; {
   pub fn new() -&gt; Self {
     List { head: None }
   }
@@ -425,11 +402,10 @@ pub fn cons&lt;T&gt;(list: &amp;List&lt;T&gt;, elem: T) -&gt; List&lt;T&gt; {
     })),
   }
 }
-</span></pre>
+</code></pre>
 <p>The code is, again, straightforward, so I'll leave you to read it by yourself.</p>
 <p>Now let's test it!</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">#[cfg(test)]
+<pre><code>#[cfg(test)]
 mod test {
   use super::*;
 
@@ -452,14 +428,13 @@ mod test {
   }
 }
 
-</span></pre>
+</code></pre>
 <p>Last we have to define our iterative drop:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">impl&lt;T&gt; Drop for List&lt;T&gt; {
+<pre><code>impl&lt;T&gt; Drop for List&lt;T&gt; {
   fn drop(&amp;mut self) {
     let mut head = self.head.take();
     while let Some(node) = head {
-      // unwraps if it&#39;s unique
+      &#x2F;&#x2F; unwraps if it&#x27;s unique
       match Rc::try_unwrap(node) {
         Ok(mut node) =&gt; {
           head = node.next.take();
@@ -471,25 +446,23 @@ mod test {
     }
   }
 }
-</span></pre>
+</code></pre>
 <p>The only unknown operator here is the <code>match</code>, it's used in Rust to simulate patter matching just like in functional languages.</p>
 <h2 id="iterator-and-append">Iterator and Append</h2>
 <p>To finish the tutorial, let's implement two more cool functionalities to our list. </p>
 <p>An iterator is a pattern that abstract the logic of transversing in a container, particularly lists. In Rust std library we have a <code>Iterator</code> trait that helps us implementing the patter, let's take a look.</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">pub trait Iterator {
+<pre><code>pub trait Iterator {
   type Item;
   fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt;;
 }
-</span></pre>
+</code></pre>
 <p>The new kid on the block here is <code>type Item</code>. This is declaring that every implementation of Iterator has an associated type called Item. In this case, this is the type that it can spit out when you call <code>next</code>. Here it goes our implementation:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">pub struct Iter&lt;&#39;a, T&gt; {
-  next: Option&lt;&amp;&#39;a Node&lt;T&gt;&gt;,
+<pre><code>pub struct Iter&lt;&#x27;a, T&gt; {
+  next: Option&lt;&amp;&#x27;a Node&lt;T&gt;&gt;,
 }
 
-impl&lt;&#39;a, T&gt; Iterator for Iter&lt;&#39;a, T&gt; {
-  type Item = &amp;&#39;a T;
+impl&lt;&#x27;a, T&gt; Iterator for Iter&lt;&#x27;a, T&gt; {
+  type Item = &amp;&#x27;a T;
 
   fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
     self.next.map(|node| {
@@ -498,10 +471,9 @@ impl&lt;&#39;a, T&gt; Iterator for Iter&lt;&#39;a, T&gt; {
     })
   }
 }
-</span></pre>
+</code></pre>
 <p>And here are some tests:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">#[test]
+<pre><code>#[test]
 fn iter_t() {
   let list = cons(&amp;cons(&amp;cons(&amp;List::new(), 1), 2), 3);
 
@@ -510,10 +482,9 @@ fn iter_t() {
   assert_eq!(iter.next(), Some(&amp;2));
   assert_eq!(iter.next(), Some(&amp;1));
 }
-</span></pre>
+</code></pre>
 <p>Now let's build our last piece of the puzzle, the append function. Its semantics is supposed to be quite simple, given two <code>List&lt;T&gt;</code> return a new <code>List&lt;T&gt;</code> which is the result of appending the final of the first list to the beginning of the second. Let's code it:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">pub fn append&lt;T&gt;(l1: &amp;List&lt;T&gt;, l2: &amp;List&lt;T&gt;) -&gt; List&lt;T&gt;
+<pre><code>pub fn append&lt;T&gt;(l1: &amp;List&lt;T&gt;, l2: &amp;List&lt;T&gt;) -&gt; List&lt;T&gt;
 where
   T: Clone,
 {
@@ -528,11 +499,10 @@ where
     }
   }
 }
-</span></pre>
+</code></pre>
 <p>You should be able to understand the whole code by now, except for the <code>ẁhere</code> clause. What it does is basically set a trait bound to the generic parameter <code>T</code>, which means that every possible <code>T</code> must implement a trait called <code>Clone</code>, in fact, we need to clone some elements in order to append the two lists. If you know Haskell, it's as simple as defining a type class bound, for example: <code>Clone a =&gt; List a -&gt; List a -&gt; List a</code>.</p>
 <p>That's how we test this new function:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">#[test]
+<pre><code>#[test]
 fn append_t() {
   let l1 = cons(&amp;cons(&amp;List::new(), 1), 2);
   let l2 = cons(&amp;cons(&amp;List::new(), 5), 6);
@@ -544,11 +514,10 @@ fn append_t() {
   assert_eq!(iter.next(), Some(&amp;6));
   assert_eq!(iter.next(), Some(&amp;5));
 }
-</span></pre>
+</code></pre>
 <p>And that's it !!! You did build a functional linked list using an imperative (multi paradigm) language!!! If you've read this until the end, I hope you have enjoyed it. See you in the next post if you're sticking around.</p>
 <p>Here's the full code for reference:</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">use std::rc::Rc;
+<pre><code>use std::rc::Rc;
 
 type Link&lt;T&gt; = Option&lt;Rc&lt;Node&lt;T&gt;&gt;&gt;;
 
@@ -615,7 +584,7 @@ impl&lt;T&gt; Drop for List&lt;T&gt; {
     let mut head = self.head.take();
     while let Some(node) = head {
       match Rc::try_unwrap(node) {
-        // unwraps if it&#39;s unique
+        &#x2F;&#x2F; unwraps if it&#x27;s unique
         Ok(mut node) =&gt; {
           head = node.next.take();
         }
@@ -627,12 +596,12 @@ impl&lt;T&gt; Drop for List&lt;T&gt; {
   }
 }
 
-pub struct Iter&lt;&#39;a, T&gt; {
-  next: Option&lt;&amp;&#39;a Node&lt;T&gt;&gt;,
+pub struct Iter&lt;&#x27;a, T&gt; {
+  next: Option&lt;&amp;&#x27;a Node&lt;T&gt;&gt;,
 }
 
-impl&lt;&#39;a, T&gt; Iterator for Iter&lt;&#39;a, T&gt; {
-  type Item = &amp;&#39;a T;
+impl&lt;&#x27;a, T&gt; Iterator for Iter&lt;&#x27;a, T&gt; {
+  type Item = &amp;&#x27;a T;
 
   fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
     self.next.map(|node| {
@@ -688,7 +657,8 @@ mod test {
   }
 }
 
-</span></pre>
+</code></pre>
+
 </div>
 
   </div>

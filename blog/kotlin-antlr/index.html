@@ -11,10 +11,10 @@
   <title>flávio.</title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;print.css" media="print">
-  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;poole.css">
-  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;hyde.css">
-  <link rel="stylesheet" href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;base.css">
+  <link rel="stylesheet" href="https://flavluc.github.io/print.css" media="print">
+  <link rel="stylesheet" href="https://flavluc.github.io/poole.css">
+  <link rel="stylesheet" href="https://flavluc.github.io/hyde.css">
+  <link rel="stylesheet" href="https://flavluc.github.io/base.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400italic,700|Libre+Baskerville">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -28,7 +28,7 @@
   
   <div class="sidebar">
     <div class="container sidebar-sticky">
-      <div><img class="pp" src="https:&#x2F;&#x2F;flavluc.github.io&#x2F;pp.png"></div>
+      <div><img class="pp" src="https://flavluc.github.io/pp.png"></div>
       <div class="sidebar-about">
         
         <a href="https:&#x2F;&#x2F;flavluc.github.io&#x2F;">
@@ -97,8 +97,7 @@
   <p>In this post I'll be showing how to write a arithmetic expression evaluator using ANTLR4 as a parser generator and a visitor interface written in Kotlin to walk on the generated tree. I didn't use any build tool for this tutorial because it was supposed to be quite simple, but I intend to improve it later and show how things can be done using <a href="https://gradle.org/">gradle</a>.</p>
 <h2 id="1-install-kotlin">1 - Install Kotlin</h2>
 <p>Follow the instructions at the <a href="https://kotlinlang.org/docs/tutorials/command-line.html">Kotlin installation guide</a>.</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">$ java -version
+<pre><code>$ java -version
 openjdk version &quot;11.0.6&quot; 2020-01-14
 OpenJDK Runtime Environment (build 11.0.6+10)
 OpenJDK 64-Bit Server VM (build 11.0.6+10, mixed mode)
@@ -108,57 +107,58 @@ Kotlin version 1.3.72-release-468 (JRE 11.0.6+10)
 
 $ kotlinc -version
 info: kotlinc-jvm 1.3.72 (JRE 11.0.6+10)
-</span></pre><h2 id="2-install-antlr4">2 - Install ANTLR4</h2>
+</code></pre>
+<h2 id="2-install-antlr4">2 - Install ANTLR4</h2>
 <p>Follow the instructions at the <a href="https://www.antlr.org">ANTLR website</a>.</p>
 <p>By now you should have the <code>antlr4</code> alias configured as described.</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">$ antlr4
+<pre><code>$ antlr4
 ANTLR Parser Generator  Version 4.8
 ...
-</span></pre><h2 id="3-set-up-a-grammar-file">3 - Set up a grammar file</h2>
+</code></pre>
+<h2 id="3-set-up-a-grammar-file">3 - Set up a grammar file</h2>
 <p>After setting up our environment we need to write a grammar for our parser.</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">/** ./Expr.g4 */
+<pre><code>&#x2F;** .&#x2F;Expr.g4 *&#x2F;
 
-/** Grammars always start with a grammar header (which must have the same name of the file). */
+&#x2F;** Grammars always start with a grammar header (which must have the same name of the file). *&#x2F;
 grammar Expr;
 
-/** A rule called `prog` which will be our entry point
+&#x2F;** A rule called `prog` which will be our entry point
  *  This rule means that a program is a sequence of one or more `stat`s 
- */
+ *&#x2F;
 prog:   stat+ ;
 
-/** A `stat` rule may be each of the four alternatives (represented by `|`)
+&#x2F;** A `stat` rule may be each of the four alternatives (represented by `|`)
  *  The `#` in front of each alternative is a label, we need it so ANTLR generates a visitor function for each alternative (else it would generate one for the whole rule)
- */
-stat:   ID &#39;=&#39; expr NEWLINE         # assign
+ *&#x2F;
+stat:   ID &#x27;=&#x27; expr NEWLINE         # assign
     |   CLEAR NEWLINE               # clear
     |   expr NEWLINE                # printExpr
     |   NEWLINE                     # blank
     ;
 
-/** The `expr` rule to recognize arithmetic expressions */
-expr:   expr op=(&#39;*&#39;|&#39;/&#39;) expr      # MulDiv
-    |   expr op=(&#39;+&#39;|&#39;-&#39;) expr      # AddSub
+&#x2F;** The `expr` rule to recognize arithmetic expressions *&#x2F;
+expr:   expr op=(&#x27;*&#x27;|&#x27;&#x2F;&#x27;) expr      # MulDiv
+    |   expr op=(&#x27;+&#x27;|&#x27;-&#x27;) expr      # AddSub
     |   INT                         # int
     |   ID                          # id
-    |   &#39;(&#39; expr &#39;)&#39;                # parens
+    |   &#x27;(&#x27; expr &#x27;)&#x27;                # parens
     ;
 
-/** We also need to define some token names for the operator literals.
- *  That way we can reference token names as Java/Kotlin constants in the visitor.
+&#x2F;** We also need to define some token names for the operator literals.
+ *  That way we can reference token names as Java&#x2F;Kotlin constants in the visitor.
  *  The same applies for the `op=` in the `expr` rule
- */
-MUL :   &#39;*&#39; ;            // assigns token name to &#39;*&#39; used above in grammar
-DIV :   &#39;/&#39; ;
-ADD :   &#39;+&#39; ;
-SUB :   &#39;-&#39; ;
-CLEAR:  &#39;clear&#39; ;        // match clear keyword
-ID  :   [a-zA-Z]+ ;      // match identifiers
-INT :   [0-9]+ ;         // match integers
-NEWLINE:&#39;\r&#39;? &#39;\n&#39; ;     // return newlines to parser (is end-statement signal)
-WS  :   [ \t]+ -&gt; skip ; // toss out whitespace
-</span></pre><h2 id="4-tree-walker">4 - Tree walker</h2>
+ *&#x2F;
+MUL :   &#x27;*&#x27; ;            &#x2F;&#x2F; assigns token name to &#x27;*&#x27; used above in grammar
+DIV :   &#x27;&#x2F;&#x27; ;
+ADD :   &#x27;+&#x27; ;
+SUB :   &#x27;-&#x27; ;
+CLEAR:  &#x27;clear&#x27; ;        &#x2F;&#x2F; match clear keyword
+ID  :   [a-zA-Z]+ ;      &#x2F;&#x2F; match identifiers
+INT :   [0-9]+ ;         &#x2F;&#x2F; match integers
+NEWLINE:&#x27;\r&#x27;? &#x27;\n&#x27; ;     &#x2F;&#x2F; return newlines to parser (is end-statement signal)
+WS  :   [ \t]+ -&gt; skip ; &#x2F;&#x2F; toss out whitespace
+</code></pre>
+<h2 id="4-tree-walker">4 - Tree walker</h2>
 <p>By using ANTLR we have basically three easy ways of interacting with the parsing tree generated by the parser:</p>
 <ul>
 <li>
@@ -188,16 +188,15 @@ WS  :   [ \t]+ -&gt; skip ; // toss out whitespace
 </li>
 </ul>
 <p>You can find more information about each of these in the <a href="https://github.com/antlr/antlr4/blob/master/doc/index.md">ANTLR documentation</a>. Here I'll keep with the visitor pattern.</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">// ./eval-visitor.kt
+<pre><code>&#x2F;&#x2F; .&#x2F;eval-visitor.kt
 
-/** ExprBaseVisitor is the base class generated by ANTLR */
+&#x2F;** ExprBaseVisitor is the base class generated by ANTLR *&#x2F;
 class EvalVisitor() : ExprBaseVisitor&lt;Int&gt;() {
   var memory: HashMap&lt;String, Int&gt; = HashMap&lt;String, Int&gt;()
 
-/** These are the functions generated by each label as we defined in our grammar.
+&#x2F;** These are the functions generated by each label as we defined in our grammar.
  *  Whe only need to override the functions we are interested in.
- */
+ *&#x2F;
   override fun visitAssign(ctx: ExprParser.AssignContext ): Int {
       val id = ctx.ID().getText()  
       val value = visit(ctx.expr())   
@@ -205,19 +204,19 @@ class EvalVisitor() : ExprBaseVisitor&lt;Int&gt;() {
       return value
   }
 
-  /** expr NEWLINE */
+  &#x2F;** expr NEWLINE *&#x2F;
   override fun visitPrintExpr(ctx: ExprParser.PrintExprContext): Int {
       val value = visit(ctx.expr()) 
       println(value)         
       return 0                          
   }
 
-  /** INT */
+  &#x2F;** INT *&#x2F;
   override fun visitInt(ctx: ExprParser.IntContext): Int {
       return ctx.INT().getText().toInt()
   }
 
-  /** ID */
+  &#x2F;** ID *&#x2F;
   override fun visitId(ctx: ExprParser.IdContext): Int {
       val id = ctx.ID().getText()
       val value = memory.get(id)
@@ -225,7 +224,7 @@ class EvalVisitor() : ExprBaseVisitor&lt;Int&gt;() {
       return if ( value != null ) { value } else { 0 }
   }
 
-  /** expr op=(&#39;*&#39;|&#39;/&#39;) expr */
+  &#x2F;** expr op=(&#x27;*&#x27;|&#x27;&#x2F;&#x27;) expr *&#x2F;
   override fun visitMulDiv(ctx: ExprParser.MulDivContext): Int {
       val left = visit(ctx.expr(0))
       val right = visit(ctx.expr(1)) 
@@ -233,10 +232,10 @@ class EvalVisitor() : ExprBaseVisitor&lt;Int&gt;() {
       if ( ctx.op.getType() == ExprParser.MUL ) {
         return left * right
       }
-      return left / right 
+      return left &#x2F; right 
   }
 
-  /** expr op=(&#39;+&#39;|&#39;-&#39;) expr */
+  &#x2F;** expr op=(&#x27;+&#x27;|&#x27;-&#x27;) expr *&#x2F;
   override fun visitAddSub(ctx: ExprParser.AddSubContext): Int {
       val left = visit(ctx.expr(0))  
       val right = visit(ctx.expr(1)) 
@@ -247,23 +246,23 @@ class EvalVisitor() : ExprBaseVisitor&lt;Int&gt;() {
       return left - right 
   }
 
-  /** &#39;(&#39; expr &#39;)&#39; */
+  &#x2F;** &#x27;(&#x27; expr &#x27;)&#x27; *&#x2F;
   override fun visitParens(ctx: ExprParser.ParensContext): Int {
       return visit(ctx.expr()) 
   }
 
-  /** &#39;clear&#39; */
+  &#x2F;** &#x27;clear&#x27; *&#x2F;
   override fun visitClear(ctx: ExprParser.ClearContext): Int {
       memory.clear()
       return 0
   }
 }
-</span></pre><h2 id="5-testing">5 - Testing</h2>
+</code></pre>
+<h2 id="5-testing">5 - Testing</h2>
 <p>ANTLR comes with a testing tool in the runtime library called TestRig. If you've followed the installation guide you have a <code>grun</code> alias to run and play with.</p>
 <p>However, we'll write a simple kotlin application to invoke our parser and call our newly created visitor to execute the arithmetic expressions.</p>
 <p>The code is pretty straightforward so I didn't put any comments. Basically we're just creating an <code>InputStream</code> from a file, if given, or using <code>stdin</code>. Then, this stream will be used to feed our lexer and, consequently, be consumed by our parser.</p>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">// ./calc.kt
+<pre><code>&#x2F;&#x2F; .&#x2F;calc.kt
 
 package calc
 
@@ -285,54 +284,50 @@ fun main(args: Array&lt;String&gt;){
   val lexer = ExprLexer(input)
   val tokens = CommonTokenStream(lexer)
   val parser = ExprParser(tokens)
-  val tree = parser.prog()   //`prog` is the entry point we defined in our grammar
+  val tree = parser.prog()   &#x2F;&#x2F;`prog` is the entry point we defined in our grammar
 
   val eval = EvalVisitor()
   eval.visit(tree)
 } 
-</span></pre><h2 id="6-running">6 - Running</h2>
+</code></pre>
+<h2 id="6-running">6 - Running</h2>
 <p>Once we have everything set up, it's quite easy to compile and run our programs. Here's a sequence of commands to achieve it.</p>
 <ul>
 <li>Generate the Lexer, Parser, and the Visitor interface with ANTLR4:</li>
 </ul>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">$ antlr4 -no-listener -visitor Expr.g4
-</span></pre>
+<pre><code>$ antlr4 -no-listener -visitor Expr.g4
+</code></pre>
 <ul>
 <li>Compile the generated java files:</li>
 </ul>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">$ javac Expr*.java
-</span></pre>
+<pre><code>$ javac Expr*.java
+</code></pre>
 <ul>
 <li>Compile our visitor and main program with <code>kotlinc</code>:</li>
 </ul>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">$ echo $CLASSPATH
-.:/usr/local/lib/antlr-4.8-complete.jar:
+<pre><code>$ echo $CLASSPATH
+.:&#x2F;usr&#x2F;local&#x2F;lib&#x2F;antlr-4.8-complete.jar:
 
 $ kotlinc calc.kt eval-visitor.kt -cp $CLASSPATH
-</span></pre>
+</code></pre>
 <ul>
 <li>For the sake of testing I wrote a small input file (<code>test.expr</code>) so we can pass to our program.</li>
 </ul>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">193
+<pre><code>193
 a = 5
 b = 6
 a+b*2
 clear
 a+b
-</span></pre>
+</code></pre>
 <ul>
 <li>Run the main program with <code>kotlin</code>:</li>
 </ul>
-<pre style="background-color:#2b2c2f;">
-<span style="color:#cccece;">$ kotlin -cp $CLASSPATH calc.CalcKt test.expr
+<pre><code>$ kotlin -cp $CLASSPATH calc.CalcKt test.expr
 193
 17
 0
-</span></pre>
+</code></pre>
 <p>The first line is just a print expression. The second one is an evaluation of the expression <code>a+b*2</code> with the previously defined identifiers. And the last is trying to evaluate <code>a+b</code> after cleaning the memory, which obviously is wrong as the identifiers are no more defined. For simplicity's sake we just evaluated it to a default value <code>0</code> (this behavior can be changed in our visitor).</p>
 <h2 id="7-conclusion">7 - Conclusion</h2>
 <p>So that's it! Now we have a working (and simple) Arithmetic Expressions Evaluator.</p>

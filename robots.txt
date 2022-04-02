@@ -1,2 +1,3 @@
 User-agent: *
+Allow: /
 Sitemap: https://flavluc.github.io/sitemap.xml
