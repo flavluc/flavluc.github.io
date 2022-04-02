@@ -13,6 +13,20 @@ template = "home.html"
   <div class="post">
     <h3 class="post-title">
       <small>
+        Software Developer - Datarisk
+      </small>
+    </h3>
+    <span class="post-date">Oct 2021 - Now</span>
+    <ul>
+      <li>Development of a platform for AI products using F#.</li>
+      <li>Applied functional programming on real-world systems.</li>
+      <li>Experience with advanced language features such as Type Providers and Computation Expressions.</li>
+  </ul>
+  
+  </div>
+  <div class="post">
+    <h3 class="post-title">
+      <small>
         Compiler Developer - Imagine AI
       </small>
     </h3>
